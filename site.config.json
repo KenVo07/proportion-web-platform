@@ -1,0 +1,16 @@
+{
+  "siteUrl": "https://proportion.systems/",
+  "showcase": {
+    "state": "pending",
+    "url": "https://demo.proportion.systems/",
+    "phoneLine": "pending"
+  },
+  "contact": {
+    "href": "",
+    "label": "Get in touch"
+  },
+  "founder": {
+    "name": "Minh Khoa Vo",
+    "location": "Melbourne, Australia"
+  }
+}

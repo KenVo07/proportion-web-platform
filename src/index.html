@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AFO — AI Front Office for service businesses</title>
+  <meta name="description" content="AFO answers calls and web enquiries for plumbers, electricians, HVAC and cleaning businesses, works out what the job needs, offers available times and drafts quotes from your price list for you to approve.">
+  <link rel="canonical" href="{{SITE_URL}}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AFO by Proportion">
+  <meta property="og:title" content="AFO — AI Front Office for service businesses">
+  <meta property="og:description" content="Calls and web enquiries answered, job details gathered, times offered and quotes drafted from your price list for you to approve. Built around your services, rules and workflows.">
+  <meta property="og:url" content="{{SITE_URL}}">
+  <meta property="og:image" content="{{SITE_URL}}og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f7f8f5">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="site.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="AFO home">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span class="brand-name">AFO</span>
+      <span class="brand-sub">AI Front Office</span>
+    </a>
+    <nav class="site-nav" aria-label="Sections">
+      <a href="#how-it-works">How it works</a>
+      <a href="#control">Your rules</a>
+      <a href="#owner">Your inbox</a>
+      <a href="#showcase">Showcase</a>
+    </nav>
+    <div class="header-cta">{{NAV_CTA}}</div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="top" aria-labelledby="hero-heading">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">AI Front Office · for service businesses</p>
+        <h1 id="hero-heading">An AI front office, built around your business.</h1>
+        <p class="lead">AFO answers calls and web enquiries for plumbers, electricians, HVAC and cleaning businesses. It works out what the job needs, offers available times, and drafts quotes from your price list for you to approve. You can take over any conversation, any time.</p>
+        <div class="cta-row">{{HERO_CTAS}}</div>
+        <p class="cta-note">{{HERO_NOTE}}</p>
+      </div>
+
+      <figure class="hero-visual" data-reveal>
+        <div class="ui ui-frame" role="img" aria-label="The AFO business view for a fictional plumbing business. A phone enquiry about a burst pipe is in the Inbox with its transcript, and a timeline shows what AFO did: opened a Case, gave the safety step first, offered times, confirmed the booking with the calendar, and drafted a quote from the price list that now waits for the owner.">
+          <div class="ui-top">
+            <span class="ui-biz">Riverbend Plumbing</span>
+            <span class="ui-pill warn">Fictional demo</span>
+            <span class="ui-tabs"><span class="on">Inbox</span><span>Job</span><span>Calendar</span><span>Owner decision<i class="ui-dot"></i></span></span>
+          </div>
+          <div class="ui-handling">
+            <span class="ui-pill ok">AI handling</span>
+            <span class="ui-handling-text">AFO is talking to the customer. Take over any time.</span>
+            <span class="ui-btn">Take over</span>
+          </div>
+          <div class="ui-body">
+            <div class="ui-col">
+              <div class="ui-case">
+                <div class="ui-case-head"><b>Jordan Lee</b><span class="ui-stage booked">Booked</span></div>
+                <div class="ui-case-job">Burst or leaking pipe</div>
+                <div class="ui-chips"><span class="ui-chip">Phone call</span><span class="ui-chip live">Call live</span></div>
+              </div>
+              <div class="ui-label">Phone call · caller •••157</div>
+              <p class="ui-note">Automatic transcript: what the caller was heard to say, and what AFO actually said aloud.</p>
+              <div class="ui-msgs">
+                <div class="ui-msg customer"><b>Customer</b>Water's coming out from under the kitchen sink and I can't find the tap.</div>
+                <div class="ui-msg afo"><b>AFO</b>Is water still escaping right now?</div>
+                <div class="ui-msg customer"><b>Customer</b>Yes, it's pooling on the floor.</div>
+                <div class="ui-msg afo"><b>AFO</b>If you can safely reach the water meter, turn the mains tap off and keep clear of power points near the water. Once that's done, what suburb are you in?</div>
+              </div>
+            </div>
+            <div class="ui-col">
+              <div class="ui-label">What AFO did</div>
+              <ol class="ui-timeline">
+                <li><span class="ui-time">9:41 am</span><span class="ui-event"><b>Case opened from phone call</b></span></li>
+                <li><span class="ui-time">9:41 am</span><span class="ui-event"><b>Safety first: commercial questions paused</b><small>Told the caller how to turn the mains off before asking anything else.</small></span></li>
+                <li><span class="ui-time">9:42 am</span><span class="ui-event"><b>Offered 4 times (phone)</b><small>Tue 29 Sep 10:30 am · 11:00 am · 11:30 am · 12:00 pm</small></span></li>
+                <li><span class="ui-time">9:43 am</span><span class="ui-event ok"><b>Customer chose Tuesday 29 September at 10:30 am</b><small>Their exact choice, recorded before anything was booked.</small></span></li>
+                <li><span class="ui-time">9:43 am</span><span class="ui-event ok"><b>Calendar confirmed the booking</b></span></li>
+                <li><span class="ui-time">9:44 am</span><span class="ui-event warn"><b>Quote drafted: $345.00 AUD</b><small>From the business's approved price list — never by the model. Waiting for your decision.</small></span></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <figcaption>The AFO business view, as shown in the Showcase. Riverbend Plumbing is a fictional demo business; the people and prices are examples.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="section problem" id="problem" aria-labelledby="problem-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">The front office</p>
+        <h2 id="problem-heading">The job nobody has time to do properly.</h2>
+      </div>
+      <div class="problem-grid">
+        <div class="problem-item" data-reveal>
+          <h3>Calls you can't take</h3>
+          <p>The phone rings while you're under a sink or up a ladder. A missed call is a customer who may ring the next number on the list.</p>
+        </div>
+        <div class="problem-item" data-reveal>
+          <h3>Enquiries with half the details</h3>
+          <p>Web forms arrive without the suburb, the fixture or the timing. Someone has to chase every one of them before it can be quoted or booked.</p>
+        </div>
+        <div class="problem-item" data-reveal>
+          <h3>Quotes that wait</h3>
+          <p>Pricing happens after hours, from memory, one message at a time. By then the customer has often moved on.</p>
+        </div>
+      </div>
+      <p class="problem-bridge" data-reveal>A message service takes a message. A generic chatbot says whatever sounds right. Neither moves the job forward. AFO does the front-office work the way a good office manager would: it asks the right questions, works from what your business has decided, and leaves the decisions that matter to you.</p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section how" id="how-it-works" aria-labelledby="how-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2 id="how-heading">From first contact to a booked job, in one conversation.</h2>
+        <p class="lead">Here is the same burst-pipe enquiry from the Showcase, step by step.</p>
+      </div>
+
+      <ol class="steps">
+        <li class="step" data-reveal>
+          <div class="step-text">
+            <span class="step-num" aria-hidden="true">01</span>
+            <h3>A customer gets in touch</h3>
+            <p>By phone, web chat, an enquiry form or your booking page. AFO answers as your business and says up front that it is an AI assistant.</p>
+          </div>
+          <div class="step-visual ui" role="img" aria-label="Channel labels for phone call, web chat, enquiry form and booking page, then AFO's opening message introducing itself as the business's AI assistant.">
+            <div class="ui-channels"><span class="ui-chip">Phone call</span><span class="ui-chip">Website chat</span><span class="ui-chip">Web form</span><span class="ui-chip">Booking page</span></div>
+            <div class="ui-msgs">
+              <div class="ui-msg afo"><b>AI assistant</b>Hi, I'm Riverbend Plumbing's AI assistant. What's happening at your place?</div>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-reveal>
+          <div class="step-text">
+            <span class="step-num" aria-hidden="true">02</span>
+            <h3>AFO works out what the job needs</h3>
+            <p>It asks what your team would ask: what's happening, where, how urgent, and whether it's safe. If there's a hazard, the safety step comes first and the commercial questions wait. Every answer is recorded with where it came from.</p>
+          </div>
+          <div class="step-visual ui" role="img" aria-label="A short exchange: the customer reports water under the kitchen sink, AFO asks whether water is still escaping, then gives the safety step of turning off the mains. Below it, recorded facts labelled by source: customer said water is still escaping and the suburb is Clayton, AFO inferred a burst or leaking pipe.">
+            <div class="ui-msgs">
+              <div class="ui-msg customer"><b>Customer</b>Water's coming from under the kitchen sink and I can't find the stop tap.</div>
+              <div class="ui-msg afo"><b>AI assistant</b>Let's get that sorted. First, is water still escaping right now?</div>
+              <div class="ui-msg customer"><b>Customer</b>Yes.</div>
+              <div class="ui-msg afo"><b>AI assistant</b>If you can safely reach the water meter, turn the mains tap off. Keep away from any power points near the water, and don't try to take anything apart.</div>
+            </div>
+            <div class="ui-facts">
+              <div class="ui-label">What AFO knows — and how</div>
+              <div class="ui-fact"><span class="ui-src said">Customer said</span>Water still escaping — Yes</div>
+              <div class="ui-fact"><span class="ui-src said">Customer said</span>Suburb — Clayton</div>
+              <div class="ui-fact"><span class="ui-src inferred">AFO inferred</span>Burst or leaking pipe</div>
+              <div class="ui-fact"><span class="ui-src unknown">Unknown</span>Whether the pipe is exposed</div>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-reveal>
+          <div class="step-text">
+            <span class="step-num" aria-hidden="true">03</span>
+            <h3>It offers times and books the one the customer chose</h3>
+            <p>AFO offers available times, records the customer's exact choice, and asks the calendar to confirm before anything counts as booked. If the calendar can't confirm, the customer is told it isn't booked yet. Nothing is booked twice.</p>
+          </div>
+          <div class="step-visual ui" role="img" aria-label="AFO offers Tuesday 29 September at 10:30 am with Sam, the customer accepts, and the timeline records the customer's choice, the booking request and the calendar's confirmation.">
+            <div class="ui-msgs">
+              <div class="ui-msg afo"><b>AI assistant</b>Thanks. The earliest is Tuesday 29 September at 10:30 am with Sam. Shall I book that?</div>
+              <div class="ui-msg customer"><b>Customer</b>Yes please. I'm Jordan Lee, 12 Demo Street, Clayton.</div>
+            </div>
+            <ol class="ui-timeline compact">
+              <li><span class="ui-event"><b>Offered 4 times (phone)</b></span></li>
+              <li><span class="ui-event ok"><b>Customer chose Tuesday 29 September at 10:30 am</b><small>Their exact choice, recorded before anything was booked.</small></span></li>
+              <li><span class="ui-event"><b>Booking requested for Tuesday 29 September at 10:30 am</b><small>Recorded before the calendar was asked, so it can never be made twice.</small></span></li>
+              <li><span class="ui-event ok"><b>Calendar confirmed the booking</b></span></li>
+            </ol>
+          </div>
+        </li>
+
+        <li class="step" data-reveal>
+          <div class="step-text">
+            <span class="step-num" aria-hidden="true">04</span>
+            <h3>Quotes come from your price list, and wait for you</h3>
+            <p>When the job has enough detail, AFO drafts a quote from your approved prices, with what the price assumes spelled out. It sits in your Inbox until you approve it, reject it or take over. The customer gets exactly the quote you approved.</p>
+          </div>
+          <div class="step-visual ui" role="img" aria-label="An owner decision card: a $345 fixed-price quote for a burst pipe repair, marked waiting for you, with what the customer said and what the price assumes, and three buttons: Approve and send, Take over, Reject.">
+            <div class="ui-quote">
+              <div class="ui-quote-head">
+                <span class="ui-quote-meta">Burst or leaking pipe · Jordan Lee · Tue 29 Sep, 10:30 am</span>
+                <span class="ui-stage quote">Waiting for you</span>
+              </div>
+              <div class="ui-quote-total">$345.00 AUD</div>
+              <div class="ui-quote-sub">This is a fixed price for the work described below.</div>
+              <div class="ui-quote-line"><span>Burst pipe repair — one exposed, reachable section</span><b>$345.00</b></div>
+              <div class="ui-quote-cols">
+                <div><div class="ui-label">Customer said</div><ul><li>Pipe under the kitchen sink has burst</li><li>Water still escaping: No</li><li>Pipe exposed: Yes</li></ul></div>
+                <div><div class="ui-label">Price assumes</div><ul><li>One exposed, reachable section (up to 1 m) with standard fittings, including the call-out. Excludes pipes inside walls or under floors.</li></ul></div>
+              </div>
+              <div class="ui-quote-foot">Calculated from the business's approved price list — never by the model.</div>
+              <div class="ui-actions"><span class="ui-btn primary">Approve &amp; send</span><span class="ui-btn">Take over</span><span class="ui-btn danger">Reject</span></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-reveal>
+          <div class="step-text">
+            <span class="step-num" aria-hidden="true">05</span>
+            <h3>You can step in at any point</h3>
+            <p>Take over a conversation and AFO goes silent. Reply as the business, from the same thread. Hand it back when you're done and AFO carries on with the same Case.</p>
+          </div>
+          <div class="step-visual ui" role="img" aria-label="The handling bar has switched to You're handling, with the note that AFO is silent and a button to hand back to AFO. A team member message reads: Hi Jordan, it's the owner. Sam will bring the parts.">
+            <div class="ui-handling human">
+              <span class="ui-pill human">You're handling</span>
+              <span class="ui-handling-text">AFO is silent. Customer messages still appear in this enquiry.</span>
+              <span class="ui-btn">Hand back to AFO</span>
+            </div>
+            <div class="ui-msgs">
+              <div class="ui-sys">A member of the team has joined the conversation.</div>
+              <div class="ui-msg team"><b>Team member</b>Hi Jordan, it's the owner. Sam will bring the parts with him.</div>
+            </div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- BUSINESS CONTROL -->
+  <section class="section control" id="control" aria-labelledby="control-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Your business, your rules</p>
+        <h2 id="control-heading">It works from what your business has decided. Not from what sounds good.</h2>
+        <p class="lead">Before AFO takes a single enquiry, it is set up with your services, prices, service areas, hours, staff and the way you want things handled. That setup is the authority. The AI works inside it.</p>
+      </div>
+      <div class="control-grid">
+        <div class="control-col" data-reveal>
+          <h3>What AFO is given</h3>
+          <ul class="control-list">
+            <li><b>Services</b><span>What you do, what you don't, and what needs a person to look first.</span></li>
+            <li><b>Prices</b><span>Your approved price list, and what each price assumes.</span></li>
+            <li><b>Service areas</b><span>The suburbs you cover.</span></li>
+            <li><b>Hours and staff</b><span>When you work and who does what.</span></li>
+            <li><b>How you like things handled</b><span>A plain-language playbook: how to greet, what to ask, when to stop and hand over.</span></li>
+            <li><b>What you approve</b><span>Quotes wait for you. So does anything your rules say a person should decide.</span></li>
+          </ul>
+        </div>
+        <div class="control-col" data-reveal>
+          <h3>What that means in practice</h3>
+          <ul class="control-list rules">
+            <li><b>Prices come from your price list.</b><span>The model never invents one.</span></li>
+            <li><b>Nothing is called booked, sent or confirmed until it is.</b><span>If the calendar can't confirm, the customer is told it isn't booked yet.</span></li>
+            <li><b>What you approve is exactly what the customer gets.</b><span>The quote you saw is the quote that is sent.</span></li>
+            <li><b>Every fact is labelled with where it came from.</b><span>Customer said, AFO inferred, observed by staff, or still unknown.</span></li>
+            <li><b>AFO says it is an AI assistant.</b><span>Customers are told up front, whether they call or chat.</span></li>
+            <li><b>Every conversation is kept as evidence and checked.</b><span>Checks such as "booked only the time the customer chose" and "no unapproved price was quoted" run on each one.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHANNELS -->
+  <section class="section channels" id="channels" aria-labelledby="channels-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">One front office</p>
+        <h2 id="channels-heading">Phone, web chat, enquiry form, booking page. One place for all of it.</h2>
+        <p class="lead">Whether a customer calls, chats, fills in the form or uses the booking page, it lands in the same Case: the job, the conversations on it, the booking, the quote, and a plain record of what AFO did. Not four disconnected bots.</p>
+      </div>
+      <div class="flow" role="img" aria-label="Four channels, phone call, website chat, enquiry form and booking page, feed into one Case, which feeds the Inbox, the calendar and the owner's quote decisions." data-reveal>
+        <ul class="flow-in">
+          <li>Phone call</li>
+          <li>Website chat</li>
+          <li>Enquiry form</li>
+          <li>Booking page</li>
+        </ul>
+        <div class="flow-line" aria-hidden="true"></div>
+        <div class="flow-core">
+          <span class="flow-core-label">Case</span>
+          <span class="flow-core-sub">Customer · job · conversations · what AFO did</span>
+        </div>
+        <div class="flow-line" aria-hidden="true"></div>
+        <ul class="flow-out">
+          <li>Inbox</li>
+          <li>Calendar</li>
+          <li>Owner decision</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- OWNER EXPERIENCE -->
+  <section class="section owner" id="owner" aria-labelledby="owner-heading">
+    <div class="container owner-grid">
+      <div class="owner-copy">
+        <p class="eyebrow">Your side of it</p>
+        <h2 id="owner-heading">One Inbox: every conversation, what AFO did, and what needs you.</h2>
+        <ul class="feature-list">
+          <li data-reveal>
+            <h3>Inbox and Case</h3>
+            <p>Conversations grouped by job, with the transcript and a timeline of what AFO did and why. Facts show where they came from, and what AFO still needs.</p>
+          </li>
+          <li data-reveal>
+            <h3>Owner decision</h3>
+            <p>Quotes wait with the price, what the customer said and what the price assumes. Approve and send, reject, or take over. Nothing goes out without you.</p>
+          </li>
+          <li data-reveal>
+            <h3>Take over, hand back</h3>
+            <p>Step into any conversation and AFO goes silent. Reply as the business. Hand it back and AFO picks up the same Case.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="owner-visual ui" data-reveal role="img" aria-label="The Inbox for the fictional Riverbend Plumbing: three conversations, one booked from a phone call, one quote waiting for the owner from website chat, and a new enquiry from the web form. The selected conversation shows its stage and review line.">
+        <div class="ui-frame small">
+          <div class="ui-top">
+            <span class="ui-biz">Riverbend Plumbing</span>
+            <span class="ui-tabs"><span class="on">Inbox</span><span>Job</span><span>Calendar</span><span>Owner decision<i class="ui-dot"></i></span></span>
+          </div>
+          <div class="ui-inbox">
+            <div class="ui-case selected">
+              <div class="ui-case-head"><b>Jordan Lee</b><span class="ui-stage booked">Booked</span></div>
+              <div class="ui-case-job">Burst or leaking pipe</div>
+              <div class="ui-chips"><span class="ui-chip">Phone call</span></div>
+              <div class="ui-review">Review: incomplete · 1 check passed, 5 partly</div>
+            </div>
+            <div class="ui-case">
+              <div class="ui-case-head"><b>Priya Nair</b><span class="ui-stage quote">Quote ready for you</span></div>
+              <div class="ui-case-job">Hot water not working</div>
+              <div class="ui-chips"><span class="ui-chip">Website chat</span></div>
+              <div class="ui-review">Review: in progress</div>
+            </div>
+            <div class="ui-case">
+              <div class="ui-case-head"><b>New customer</b><span class="ui-stage">New enquiry</span></div>
+              <div class="ui-case-job">Blocked drain</div>
+              <div class="ui-chips"><span class="ui-chip">Web form</span></div>
+              <div class="ui-review">Review: in progress</div>
+            </div>
+          </div>
+          <div class="ui-still">
+            <div class="ui-label">AFO still needs</div>
+            <div class="ui-chips"><span class="ui-chip">Is the pipe exposed?</span><span class="ui-chip">Photo, if safe</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE SHOWCASE -->
+  <section class="section showcase" id="showcase" aria-labelledby="showcase-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Live Showcase</p>
+        <h2 id="showcase-heading">See it handle a job you'd actually get.</h2>
+        {{SHOWCASE_STATUS}}
+      </div>
+      <div class="showcase-grid">
+        <ol class="showcase-steps" data-reveal>
+          <li><span><b>Pick a fictional business.</b> Riverbend Plumbing, Northgate Electrical or Bayleaf Cleaning. Each has its own services, staff, prices and schedule.</span></li>
+          <li><span><b>Play the customer.</b> Chat, send an enquiry form or use the booking page. Describe a real job, or use one of the suggested scenarios.</span></li>
+          <li><span><b>Open the business view.</b> See the Inbox, the Case, the calendar and the quote waiting for a decision. Approve it, reject it, or take over the conversation yourself.</span></li>
+          {{SHOWCASE_PHONE}}
+        </ol>
+        <div class="showcase-aside" data-reveal>
+          <h3>What to expect</h3>
+          <ul class="plain-list">
+            <li>Your own private demo session.</li>
+            <li>Fictional businesses, staff, prices and schedules. Nobody will attend, and nothing is sent to a real customer.</li>
+            <li>AFO tells you it is an AI assistant, as it would tell your customers.</li>
+            <li>The same runtime that is being qualified for real businesses, not a scripted mock-up.</li>
+          </ul>
+          <div class="cta-row">{{SHOWCASE_CTAS}}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section class="section founder" id="founder" aria-labelledby="founder-heading">
+    <div class="container founder-inner">
+      <div class="section-head">
+        <p class="eyebrow">Who's building it</p>
+        <h2 id="founder-heading">Built in Melbourne by a technical founder.</h2>
+      </div>
+      <div class="founder-body" data-reveal>
+        <p>AFO is a Proportion product, built in {{FOUNDER_LOCATION}} by founder {{FOUNDER_NAME}}. It is early-stage and deliberately careful: the product is being qualified against the real rules of real service businesses, one behaviour at a time, before it takes a paying customer's calls.</p>
+        <p>Everything described on this page is in the Showcase. If it isn't there, it isn't claimed here.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="section final" id="get-started" aria-labelledby="final-heading">
+    <div class="container final-inner">
+      <h2 id="final-heading">{{FINAL_HEADING}}</h2>
+      <p class="lead">Running a plumbing, electrical, HVAC or cleaning business and want to be one of the first to put AFO on your front office? Start with the Showcase, then talk to the founder.</p>
+      <div class="cta-row">{{FINAL_CTAS}}</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span><b>AFO</b> · AI Front Office for service businesses</span>
+    </div>
+    <p class="footer-note">A Proportion product, built in {{FOUNDER_LOCATION}}. The Showcase uses fictional businesses; no real customer data appears on this site.</p>
+    <nav class="footer-links" aria-label="Footer">{{FOOTER_LINKS}}<a href="#top">Back to top</a></nav>
+    <p class="footer-copy">© 2026 Proportion</p>
+  </div>
+</footer>
+</body>
+</html>
