@@ -42,6 +42,12 @@ for (const m of html.matchAll(/<img\b[^>]*>/g)) {
 }
 for (const m of html.matchAll(/role="img"[^>]*/g)) if (!/aria-label=/.test(m[0])) problems.push("role=img without aria-label");
 if (/\son[a-z]+="/i.test(html)) problems.push("inline event handler attribute");
+// The production release builder fingerprints every .js/.css file and rewrites references only in HTML/CSS,
+// so shipped scripts must not load each other by relative path.
+for (const f of readdirSync(join(dist, "js"))) {
+  const js = readFileSync(join(dist, "js", f), "utf8");
+  if (/^\s*import[\s{*]|\bimport\s*\(|\bnew Worker\(/m.test(js)) problems.push(`js/${f} loads another script by relative path (breaks release fingerprinting)`);
+}
 for (const m of html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)) if (/^https?:/.test(m[1])) problems.push(`third-party script: ${m[1]}`);
 if (/(?:href|src)="http:\/\//.test(html)) problems.push("insecure http:// link");
 

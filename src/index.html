@@ -20,8 +20,6 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/inter-latin-opsz-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
-  <link rel="modulepreload" href="js/story.js">
-  <link rel="modulepreload" href="js/scroll.js">
   <script>
     // Enhanced layout is opt-in: CSS gates motion and pinning on .js. If the modules never start
     // (very old browser, blocked script), fall back to the static layout after 3 seconds.
@@ -30,7 +28,7 @@
       setTimeout(function () { if (!d.classList.contains("motion-ready")) d.classList.remove("js"); }, 3000);
     })(document.documentElement);
   </script>
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/site.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>

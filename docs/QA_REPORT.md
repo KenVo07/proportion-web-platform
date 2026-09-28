@@ -85,7 +85,32 @@ Headless Chromium composites in software. Real GPU devices should be at least as
 dropped frames only where the stage mask, in-stage blur and nav blur stacked. The mask now applies only in the
 frames that crop a surface, and in-stage blur is 12 px.
 
-## 4. Browser support and fallbacks
+## 4. Release-path compatibility
+
+`proportion.systems` already serves V1 through `~/Projects/afo-public-release-v1`. That repository was read only,
+not modified, and nothing was deployed. Its `make-release.mjs` fingerprints every `.css` and `.js` file and
+rewrites references only in HTML and CSS.
+
+Replaying exactly that step on a copy of V2's first build showed `404 /js/dates.js`, `/js/story.js`,
+`/js/scroll.js` and `/js/reveal.js`. The page fell back to static after 3 seconds, and the release gates would not
+have caught it: they check references only in HTML.
+
+Fix: the build now bundles the modules into one `js/site.js`, and `npm run check` fails if a shipped script imports
+another. Replayed again: no failed requests, and the stage runs with motion.
+
+V2's output also passes all six of the release builder's refusal patterns:
+
+- local addresses
+- placeholder domains
+- local paths
+- fixture markers
+- unfilled slots
+- draft markers
+
+The release smoke's checks are structural and V2 satisfies them, with two caveats noted in the README: the
+primary-CTA check once the Showcase is live, and the full-page screenshot.
+
+## 5. Browser support and fallbacks
 
 | Feature | Fallback |
 |---|---|
@@ -95,9 +120,9 @@ frames that crop a surface, and in-stage blur is 12 px.
 | `@property` (animatable light angle) | The light angle steps instead of sweeping. |
 | `:has()`, which scopes the stage fade | A hard crop at the padded stage edge |
 | `overflow: clip` (Safari 16+) | Older iOS may allow a small sideways scroll. |
-| ES modules | If the scripts never start, `.js` is removed after 3 s and the page renders statically. |
+| ES module script | One bundled module file. If it never starts, `.js` is removed after 3 s and the page renders statically. |
 
-## 5. Not tested
+## 6. Not tested
 
 - Real devices, including iOS Safari and Android Chrome on hardware.
 - Firefox and Safari engines. All runs used Chromium.

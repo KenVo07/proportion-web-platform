@@ -140,7 +140,34 @@ const cssSource = readdirSync(styleDir).filter((f) => f.endsWith(".css")).sort()
   .map((f) => `/* ---- ${f} ---- */\n${readFileSync(join(styleDir, f), "utf8")}`).join("\n");
 writeFileSync(join(dist, "styles.css"), process.env.NO_MINIFY ? cssSource : minifyCss(cssSource));
 
-for (const f of readdirSync(join(root, "src", "js"))) copyFileSync(join(root, "src", "js", f), join(dist, "js", f));
+// One script file. The source is small ES modules in src/js; the build inlines them (in dependency order,
+// each in its own function scope) so the shipped page has no internal import graph. That matters for the
+// production release builder (~/Projects/afo-public-release-v1/tools/make-release.mjs): it fingerprints
+// every .js file but rewrites references only in HTML and CSS, so relative imports between modules would 404.
+function bundle(entry) {
+  const dir = join(root, "src", "js");
+  const order = [];
+  const seen = new Set();
+  const visit = (name) => {
+    if (seen.has(name)) return;
+    seen.add(name);
+    const text = readFileSync(join(dir, name), "utf8");
+    for (const [, dep] of text.matchAll(/^import\s*\{[^}]*\}\s*from\s*"\.\/([\w-]+\.js)";/gm)) visit(dep);
+    order.push(name);
+  };
+  visit(entry);
+  const id = (name) => `__${name.replace(/\.js$/, "").replace(/[^\w]/g, "_")}`;
+  const parts = order.map((name) => {
+    let text = readFileSync(join(dir, name), "utf8");
+    const names = [...text.matchAll(/^export\s+(?:async\s+)?(?:function|const|let|class)\s+([A-Za-z_$][\w$]*)/gm)].map((m) => m[1]);
+    text = text.replace(/^export\s+/gm, "");
+    text = text.replace(/^import\s*\{([^}]*)\}\s*from\s*"\.\/([\w-]+\.js)";/gm, (_, list, dep) => `const {${list}} = ${id(dep)};`);
+    if (/^\s*import[\s{*]/m.test(text) || /\bimport\s*\(/.test(text)) throw new Error(`build: unsupported import form in src/js/${name}`);
+    return `// ---- src/js/${name} ----\nconst ${id(name)} = (() => {\n${text.trim()}\n${names.length ? `return { ${names.join(", ")} };` : ""}\n})();`;
+  });
+  return `// AFO landing page script, bundled by build.mjs from src/js/*.js. Edit the modules, not this file.\n${parts.join("\n\n")}\n`;
+}
+writeFileSync(join(dist, "js", "site.js"), bundle("main.js"));
 for (const f of readdirSync(join(root, "src", "fonts")).filter((f) => f.endsWith(".woff2"))) copyFileSync(join(root, "src", "fonts", f), join(dist, "fonts", f));
 for (const f of readdirSync(join(root, "src", "assets"))) copyFileSync(join(root, "src", "assets", f), join(dist, "assets", f));
 if (photoOut) copyFileSync(join(root, founder.photo), join(dist, photoOut));

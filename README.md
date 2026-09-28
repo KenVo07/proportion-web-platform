@@ -5,7 +5,7 @@ One static page, with no framework and no runtime dependencies:
 
 - plain HTML
 - CSS modules concatenated and lightly minified at build time
-- four small ES modules
+- five small ES modules bundled into one script at build time
 - two self-hosted fonts
 
 The page shows the AFO product as its own visual. A pinned product stage replays one enquiry to the fictional
@@ -77,26 +77,33 @@ npm run verify       # check + a11y + stage + perf
 
 ## Deploy it
 
-Do not deploy to production without the founder's explicit go-ahead. The output is static, so any static host
-works:
+**Do not deploy without the founder's explicit go-ahead.** V2 is not deployed.
 
-- **Cloudflare Pages / Netlify / Vercel:** build command `npm run build`, output directory `dist`, Node 20 or later.
-  These hosts gzip or brotli-compress HTML, CSS and JavaScript automatically. The page transfers about 110 KB on
-  first visit.
-- **Own server (Caddy):**
+`https://proportion.systems` already serves **V1** (`2baebcc`). A separate release session put it live on
+2026-09-28. That session's repository, `~/Projects/afo-public-release-v1`, builds, ships, smokes and rolls back
+releases of this repository. Reuse it for V2 rather than setting up new hosting:
 
-  ```
-  proportion.systems {
-      root * /srv/afo-public-website/dist
-      encode zstd gzip
-      file_server
-      header /fonts/* Cache-Control "public, max-age=31536000, immutable"
-      header Cache-Control "public, max-age=300"
-  }
-  ```
+```sh
+cd ~/Projects/afo-public-release-v1
+node tools/make-release.mjs --repo ~/Projects/afo-public-website-v1 --commit <V2 commit> [--config founder.json]
+sh tools/deploy.sh releases/<id>
+node tools/public-smoke.mjs --expect-release <id> --pin <edge IPv4>   # this workstation cannot resolve the domain
+```
 
-The apex `proportion.systems` currently resolves to a host that is not managed from this repository. Pointing it at
-this site is a DNS and hosting change for the founder.
+- `make-release` builds from `git archive` of the commit and runs this repo's `tools/check.mjs`. It then
+  fingerprints every `.css` and `.js` file, but rewrites references only in HTML and CSS.
+- That is why the build bundles `src/js/*.js` into a single `dist/js/site.js`. Separate modules importing each
+  other would 404 after fingerprinting and silently turn the page static. `npm run check` fails if a shipped script
+  imports another. Verified by replaying the fingerprint step on a copy of `dist/`.
+- `--config` stamps founder details (LinkedIn, email, photo path, `showcase.state`) without committing them.
+- `public-smoke`'s "primary CTA reaches its section" check assumes an in-page link. Once `showcase.state` is
+  `live`, the first button is the external "Try AFO live", so that check needs adjusting in the release repository.
+- Its full-page screenshot shows the story as a long light column, because a full-page capture never scrolls.
+  For visual evidence, use `docs/screenshots/page-*.jpg` from `npm run screenshots`.
+- Rollback is one command in the release repository (`switch-release rollback`).
+
+Any other static host also works (build `npm run build`, serve `dist/` with gzip or brotli), but the domain is
+already wired to the path above.
 
 ## Repository layout
 
@@ -104,7 +111,7 @@ this site is a DNS and hosting change for the founder.
 site.config.json          the only file to edit for CTAs, founder and contact details
 src/index.html            the page, with {{SLOT}} markers filled by build.mjs
 src/styles/00-08*.css     tokens, base, glass, nav, story layout, product UI, stage frames, sections, motion
-src/js/main.js            entry: dates, story, scroll, reveals (progressive enhancement only)
+src/js/main.js            entry: dates, story, scroll, reveals (progressive enhancement only); bundled to dist/js/site.js
 src/js/story.js           the stage's eight frames: content per frame, choreography, fact flights (Web Animations API)
 src/js/scroll.js          one requestAnimationFrame reader: backdrop, active frame, dock progress, nav tone, drawings
 src/fonts/                Inter (variable, optical sizes) and a 5 KB JetBrains Mono subset, both SIL OFL (LICENSE.md)
