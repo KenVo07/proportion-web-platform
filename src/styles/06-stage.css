@@ -1,0 +1,134 @@
+/* Stage choreography: where each surface sits in each frame. Units are stage container units
+   (--x in cqw, --y in cqh). Changing .stage[data-state] lets CSS transitions recompose the scene;
+   js/story.js only toggles content inside surfaces and reads --fold (how much of the chat is visible).
+   States: 0 hero · 1 enquiry · 2 case · 3 offer · 4 booked · 5 quote · 6 approve · 7 takeover */
+
+.stage-clip {
+  --pad: 64px;
+  margin: calc(-1 * var(--pad));
+  padding: var(--pad);
+  overflow: clip; /* hard stop at the padded edge where the soft fade below is not supported */
+  pointer-events: none;
+}
+/* Browsers without container query units (iOS 15 and older) cannot place the surfaces: show the text story only. */
+@supports not (width: 1cqw) {
+  .stage-wrap { display: none; }
+}
+/* Only frames that crop a surface at the bottom pay for the soft fade (a mask is a separate render pass). */
+.stage-clip:has(.stage[data-state="3"]),
+.stage-clip:has(.stage[data-state="4"]) {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--pad) - 36px), transparent calc(100% - var(--pad) + 6px));
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--pad) - 36px), transparent calc(100% - var(--pad) + 6px));
+}
+@media (max-width: 959px) {
+  .stage-clip:has(.stage[data-state="3"]),
+  .stage-clip:has(.stage[data-state="4"]) { -webkit-mask-image: none; mask-image: none; }
+  .stage-clip:has(.stage[data-state="2"]),
+  .stage-clip:has(.stage[data-state="7"]) {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--pad) - 36px), transparent calc(100% - var(--pad) + 6px));
+    mask-image: linear-gradient(to bottom, #000 calc(100% - var(--pad) - 36px), transparent calc(100% - var(--pad) + 6px));
+  }
+}
+
+/* ---------- Desktop sizes and off-stage rest positions ---------- */
+.c-chat { --w: 46; --h-chat: 66; --x: -4; --y: 9; --fold: 0.96; }
+.c-case { --w: 52; --x: 56; --y: 22; --s: 0.96; }
+.c-cal { --w: 54; --x: 46; --y: 30; }
+.c-biz { --w: 56; --h-biz: 88; --x: 58; --y: 7; }
+.c-sheet { --w: 51; --x: 47.5; --y: 64; }
+.c-capsule { --x: 5; --y: 94; }
+.c-note { --x: 54; --y: 1; }
+.c-toast { --x: 30; --y: 40; }
+
+/* 0 · Hero: the customer's chat, the Case it is filling, and owner control. */
+.stage[data-state="0"] .c-chat { --x: 0; --y: 3; --o: 1; --z: 2; --fold: 0.96; }
+.stage[data-state="0"] .c-case { --x: 27; --y: 25; --s: 1; --o: 1; --z: 3; }
+.stage[data-state="0"] .c-capsule { --x: 2; --y: 70; --o: 1; --z: 4; }
+
+/* 1 · Enquiry: the conversation takes focus; the Case waits behind. */
+.stage[data-state="1"] .c-chat { --x: 5; --y: 3; --o: 1; --z: 3; --fold: 0.96; }
+.stage[data-state="1"] .c-case { --x: 51; --y: 16; --s: 0.92; --o: 0.38; --z: 2; }
+.stage[data-state="1"] .c-note.on { --x: 55; --y: 5; --o: 1; --z: 5; }
+.stage[data-state="1"] .c-capsule { --x: 5; --y: 96; }
+
+/* 2 · Case: the Case comes forward to receive the facts. */
+.stage[data-state="2"] .c-chat { --x: 0; --y: 5; --o: 1; --z: 2; --fold: 0.96; }
+.stage[data-state="2"] .c-case { --x: 44; --y: 10; --s: 1; --o: 1; --z: 3; }
+
+/* 3–4 · Offer and booking: Case compact top-left, the latest messages below it, the calendar right. */
+.stage[data-state="3"] .c-case,
+.stage[data-state="4"] .c-case { --x: 0; --y: 1; --s: 0.9; --o: 1; --z: 3; }
+.stage[data-state="3"] .c-chat,
+.stage[data-state="4"] .c-chat { --x: 2; --y: 36; --s: 0.94; --o: 1; --z: 2; --fold: 0.96; }
+.stage[data-state="3"] .c-cal,
+.stage[data-state="4"] .c-cal { --x: 46; --y: 24; --o: 1; --z: 3; }
+
+/* 5–7 · Owner: the customer's side on the left, the business Inbox on the right. */
+.stage[data-state="5"] .c-chat,
+.stage[data-state="6"] .c-chat,
+.stage[data-state="7"] .c-chat { --x: 0; --y: 6; --o: 1; --z: 2; --fold: 0.96; }
+.stage[data-state="5"] .c-case,
+.stage[data-state="6"] .c-case,
+.stage[data-state="7"] .c-case { --x: 24; --y: 14; --s: 0.9; --o: 0; }
+.stage[data-state="5"] .c-cal,
+.stage[data-state="6"] .c-cal,
+.stage[data-state="7"] .c-cal { --x: 56; --y: 30; --o: 0; }
+.stage[data-state="5"] .c-biz,
+.stage[data-state="6"] .c-biz,
+.stage[data-state="7"] .c-biz { --x: 44; --y: 3; --o: 1; --z: 3; }
+.stage[data-state="5"] .c-capsule,
+.stage[data-state="6"] .c-capsule,
+.stage[data-state="7"] .c-capsule { --x: 45.5; --y: 9.6; --o: 1; --z: 5; }
+.stage[data-state="5"] .c-sheet.on,
+.stage[data-state="6"] .c-sheet.on { --x: 47.5; --y: 32; --o: 1; --z: 6; }
+.stage[data-state="7"] .c-sheet { --y: 72; --o: 0; }
+
+/* ---------- Phones and tablets: one surface in focus, at most one more visible ---------- */
+@media (max-width: 959px) {
+  .stage-clip { --pad: 48px; }
+  .c { font-size: clamp(11px, 3.1cqw, 13px); }
+  .c-chat { --w: 92; --h-chat: 94; --x: 4; --y: 104; }
+  .c-case { --w: 92; --x: 4; --y: 104; --s: 1; }
+  .c-cal { --w: 92; --x: 4; --y: 104; }
+  .c-biz { --w: 92; --h-biz: 96; --x: 4; --y: 104; }
+  .c-sheet { --w: 100; --x: 0; --y: 104; border-radius: 18px 18px 0 0; }
+  .c-note { display: none; }
+  .c-case .case-log, .c-case .case-kv { display: none; }
+  .c-sheet .sheet-cols, .c-sheet .sheet-sub { display: none; }
+  .chat-compose { display: none; }
+  .stage .c-toast { left: 50%; translate: -50% calc(var(--y) * 1cqh); }
+
+  .stage[data-state] .c { --s: 1; }
+  .stage[data-state="0"] .c-chat { --x: 4; --y: 2; --o: 1; --z: 2; --fold: 0.5; }
+  .stage[data-state="0"] .c-case { --x: 8; --y: 48; --s: 0.92; --o: 1; --z: 3; }
+  .stage[data-state="0"] .c-capsule { --y: 100; --o: 0; }
+
+  .stage[data-state="1"] .c-chat { --x: 4; --y: 2; --o: 1; --z: 3; --fold: 0.97; }
+  .stage[data-state="1"] .c-case { --x: 4; --y: 100; --o: 0; }
+  .stage[data-state="1"] .c-note.on { --o: 0; }
+
+  .stage[data-state="2"] .c-chat { --x: 4; --y: 2; --o: 1; --z: 2; --fold: 0.34; }
+  .stage[data-state="2"] .c-case { --x: 4; --y: 34; --o: 1; --z: 3; }
+
+  .stage[data-state="3"] .c-chat,
+  .stage[data-state="4"] .c-chat { --x: 4; --y: 2; --s: 1; --o: 1; --z: 2; --fold: 0.31; }
+  .stage[data-state="3"] .c-case,
+  .stage[data-state="4"] .c-case { --x: 4; --y: 2; --s: 1; --o: 0; }
+  .stage[data-state="3"] .c-cal,
+  .stage[data-state="4"] .c-cal { --x: 4; --y: 32; --o: 1; --z: 3; }
+
+  .stage[data-state="5"] .c-chat,
+  .stage[data-state="6"] .c-chat { --x: 4; --y: 2; --o: 0; }
+  .stage[data-state="5"] .c-biz,
+  .stage[data-state="6"] .c-biz { --x: 4; --y: 2; --o: 1; --z: 2; }
+  .stage[data-state="5"] .c-capsule,
+  .stage[data-state="6"] .c-capsule { --x: 6.5; --y: 12.6; --o: 1; --z: 4; }
+  .stage[data-state="5"] .c-sheet.on,
+  .stage[data-state="6"] .c-sheet.on { --x: 0; --y: 43; --o: 1; --z: 6; }
+  .stage[data-state="6"] .c-toast.on { --y: 30; --o: 1; --z: 8; }
+
+  .stage[data-state="7"] .c-biz { --x: 4; --y: 2; --o: 0; }
+  .stage[data-state="7"] .c-capsule { --x: 4; --y: 2; --o: 1; --z: 4; }
+  .stage[data-state="7"] .c-chat { --x: 4; --y: 15; --o: 1; --z: 3; --fold: 0.9; }
+  .stage[data-state="7"] .c-sheet { --y: 104; --o: 0; }
+}

@@ -5,12 +5,18 @@
     "url": "https://demo.proportion.systems/",
     "phoneLine": "pending"
   },
-  "contact": {
-    "href": "",
-    "label": "Get in touch"
-  },
   "founder": {
     "name": "Minh Khoa Vo",
-    "location": "Melbourne, Australia"
+    "shortName": "Khoa",
+    "role": "Computer Science student at Monash University",
+    "location": "Melbourne, Australia",
+    "photo": "",
+    "photoAlt": "Minh Khoa Vo, founder of AFO"
+  },
+  "contact": {
+    "linkedin": "",
+    "email": "",
+    "bookingUrl": "",
+    "bookingLabel": "Book a short call"
   }
 }

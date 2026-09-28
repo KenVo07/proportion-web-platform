@@ -1,0 +1,71 @@
+/* Liquid glass, applied only to controls that float over live content:
+   the nav, the story dock, the handling capsule, the owner decision sheet and the final panel.
+   Recipe: backdrop blur, a structural gradient, a specular edge lit from --light (shifted by scroll),
+   and a contrast shadow. No refraction: it would make product text harder to read. */
+
+.glass {
+  --g-bg: rgb(255 255 255 / 0.7);
+  --g-sheen: rgb(255 255 255 / 0.5);
+  --g-edge-hi: rgb(255 255 255 / 0.95);
+  --g-edge-mid: rgb(255 255 255 / 0.45);
+  --g-edge-lo: rgb(255 255 255 / 0.12);
+  --g-line: rgb(15 23 42 / 0.09);
+  --g-blur: 18px;
+  --g-sat: 170%;
+  --g-shadow: 0 1px 1px rgb(15 23 42 / 0.05), 0 16px 36px -16px rgb(15 23 42 / 0.4);
+  position: relative;
+  isolation: isolate;
+  background-color: var(--g-bg);
+  background-image: linear-gradient(180deg, var(--g-sheen), transparent 55%);
+  -webkit-backdrop-filter: blur(var(--g-blur)) saturate(var(--g-sat));
+  backdrop-filter: blur(var(--g-blur)) saturate(var(--g-sat));
+  box-shadow: 0 0 0 1px var(--g-line), var(--g-shadow);
+  transition: background-color 420ms var(--ease-in-out), box-shadow 420ms var(--ease-in-out), color 420ms var(--ease-in-out);
+}
+/* Specular edge: a 1px ring masked out of a conic gradient whose bright point sits at --light. */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--light),
+    var(--g-edge-hi) 0%, var(--g-edge-lo) 16%, var(--g-edge-lo) 40%,
+    var(--g-edge-mid) 50%, var(--g-edge-lo) 62%, var(--g-edge-lo) 86%, var(--g-edge-hi) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+.glass.is-dark,
+[data-tone="dark"] > .glass {
+  --g-bg: rgb(17 25 31 / 0.6);
+  --g-sheen: rgb(255 255 255 / 0.07);
+  --g-edge-hi: rgb(255 255 255 / 0.5);
+  --g-edge-mid: rgb(255 255 255 / 0.2);
+  --g-edge-lo: rgb(255 255 255 / 0.05);
+  --g-line: rgb(255 255 255 / 0.08);
+  --g-shadow: 0 1px 1px rgb(0 0 0 / 0.3), 0 18px 40px -18px rgb(0 0 0 / 0.7);
+  color: var(--stage-ink);
+}
+
+/* Browsers without backdrop blur get a near-solid surface instead of unreadable transparency. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { --g-bg: rgb(255 255 255 / 0.96); }
+  .glass.is-dark, [data-tone="dark"] > .glass { --g-bg: rgb(17 25 31 / 0.95); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass { --g-bg: rgb(255 255 255 / 0.97); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .glass.is-dark, [data-tone="dark"] > .glass { --g-bg: rgb(17 25 31 / 0.97); }
+}
+/* Mirrors "Increase Contrast": solid surface and a solid outline, no specular edge. */
+@media (prefers-contrast: more) {
+  .glass { --g-bg: rgb(255 255 255 / 1); --g-line: rgb(15 23 42 / 0.7); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .glass.is-dark, [data-tone="dark"] > .glass { --g-bg: rgb(12 17 21 / 1); --g-line: rgb(255 255 255 / 0.7); }
+  .glass::before { display: none; }
+}
+@media (forced-colors: active) {
+  .glass { border: 1px solid CanvasText; }
+  .glass::before { display: none; }
+}

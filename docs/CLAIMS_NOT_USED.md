@@ -1,52 +1,63 @@
-# Claims deliberately not made
+# Claims deliberately not made (V2)
 
-Each item was considered for the page and left out because the repository's own evidence does not
-support it, or explicitly rejects it. Sources are the AFO project packages read on 2026-09-28.
+Each item was considered for the page and left out or narrowed. The reason is that the AFO evidence does not
+support it, contradicts it, or the product's own copy review rejected it. Sources are the AFO project packages,
+read on 2026-09-28 and 2026-09-29. The V2 copy was also checked by an independent read-only truth audit; its
+findings and how each was resolved are in `QA_REPORT.md`.
 
 ## Customers, results, proof
 
 | Not claimed | Why |
 |---|---|
-| Any customer count, logo, testimonial, case study or "trusted by" strip | No real client exists yet; the first real client was still unselected in the pilot handoff, and the Showcase copy review recorded "no generated art, testimonials, logos, metrics" as a deliberate rule. |
-| Revenue, ROI, savings, missed-call recovery rates, call-volume or conversion improvements | No measurement of any of these exists. |
-| Production deployments or a "live for businesses" statement | Signoff explicitly "does not authorize any real business, number ... or a real-client pilot". The page says the product is being qualified before it takes a paying customer's calls. |
-| Bluegum Plumbing & Maintenance as a customer or example | It is a fictional QA fixture that runs on production infrastructure. Not a customer; not shown. |
+| Customer counts, logos, testimonials, case studies, "trusted by" | No real client exists yet. The Showcase copy review made "no generated art, testimonials, logos, metrics" a rule. |
+| Revenue, ROI, savings, missed-call recovery rates, response times, conversion lift | Nothing measures them. Latency figures in the docs are qualification targets, not guarantees. |
+| Production deployments, "live for businesses" | The signoff "does not authorize any real business, number … or a real-client pilot". The founder note says AFO is early. |
+| Bluegum Plumbing as an example or customer | It is a fictional QA fixture on production infrastructure, not a customer. |
 
-## Capability wording that was rejected in the product's own copy review
+## Wording the product's own review rejected
 
-| Not used | Replaced with |
+| Not used | Used instead |
 |---|---|
-| "books into the real schedule" / "your calendar" | "offers available times" and "asks the calendar to confirm". The Showcase calendar is an isolated demo schedule; no Google Calendar integration is connected. |
+| "books into the real schedule", "your calendar", Google Calendar | "offers times online" and "the calendar is asked". The Showcase calendar is an in-memory demo calendar. |
 | "nothing you type leaves this sandbox" | "Your own private demo session." |
 | "you approve every price" | "Quotes wait for you", scoped to quotes. |
-| "replies in seconds" | Not mentioned. Latency figures in the docs are qualification targets, not guarantees. |
-| "can actually book" (unqualified) | Booking is described with its safeguards: exact choice recorded, calendar confirms, otherwise "not booked yet". |
-| Anything with "every location, job, channel, booking or quote" as a guarantee | Avoided; `npm run check` fails on that wording. |
+| "replies in seconds", 24/7 | Not mentioned. |
+| Any "every job / booking / quote / channel / call" guarantee | Avoided. `npm run check` fails on that wording, on percentages, and on "trusted by". |
 
-## Capabilities that exist only partly, so are described narrowly or not at all
+## Capabilities that exist only partly, so are described narrowly
 
-| Topic | What the page says | What it does not say |
+| Topic | What the page says | What it does not say, and why |
 |---|---|---|
-| Phone line | Mentioned as part of the Showcase only when `showcase.phoneLine` is `live`. | Not shown by default: the live demo line is currently stopped on open demo blockers (voice booking loop; booking accepted without name/address). No phone number is printed on the page. |
-| Customer identity across channels | "it lands in the same Case" | Does not claim that a chat and a later form always merge into one Case (an anonymous chat followed by the form can create two). |
-| Service areas | Listed as something AFO is given. | Does not claim service areas are enforced; enforcement is an open item. |
-| Quote delivery | "The customer gets exactly the quote you approved." (web chat) | Does not claim delivery receipts, PDF quotes, or quote delivery after a phone call; those are not implemented. |
-| Review / assurance | "kept as evidence and checked", naming two deterministic checks | Does not claim an AI reviewer, "reviewed, no issues", or that review is complete; the demo reports "Review: incomplete" and the mock-up shows exactly that. |
-| Human takeover | Take over / hand back as shown in the Showcase. | Does not mention pause or safe-mode, which is required before a real client and not implemented; does not claim takeover state survives a restart. |
-| Photos | Not mentioned. | AFO attaches photos but does not diagnose from them; photo evidence requests are declared not implemented. |
-| SMS, WhatsApp, email, call transfer, ring groups, self-serve onboarding, payments, outbound | Not mentioned. | Deferred or not built. |
-| Integrations (CRM, calendar, job-management software) | Not mentioned. | None is connected in the Showcase. |
+| Phone | "AFO answers calls" (hero). "By phone, web chat, enquiry form or booking page" (story step 1). The phone call appears as an Inbox row. | It never shows or says that a call ends in a booked job, and no demo number is printed. Offering times by voice failed live (LPH-13), and a booking was accepted without a name (LPH-14). The "ring the demo line" line appears only when `showcase.phoneLine` is `live`. |
+| Booking | "In web chat and on your booking page, AFO … offers times that fit"; "It isn't booked until the calendar confirms." | No calendar integration. It does not claim service areas are enforced (UNR-AREA-NOT-ENFORCED), so "service areas" was also removed from the setup list. |
+| Facts | "each labelled with where it came from"; illustration facts are all "Customer said". | No "AFO inferred" or "Staff confirmed" facts: the demo profiles refuse AI-inferred facts (AUTHORITY_NOT_ALLOWED), and nothing writes staff-confirmed ones. The job type is the Case title, not a fact. |
+| What's missing | "What's still missing is listed, not guessed"; the Showcase's own "AFO still needs" labels and "(customer doesn't know)". | No invented "still needs: name, address". The name/address rule is prompt-only (LPH-14). In the web-chat path the customer stays "New customer" even after giving a name, so the Inbox shows exactly that. |
+| Quotes | "When the job has what your price needs, such as a photo, AFO drafts the quote"; "In web chat, the customer gets the exact quote you approved. If the job changes first, nothing is sent." | No quote delivery after a phone call (CS05 not implemented), and no delivery receipts (PB-02). The price guard is described as "A price that isn't on it never reaches the customer", not "the model never writes a number". |
+| Review | "Conversations are kept as evidence and checked afterwards, for example 'Booked only the time the customer chose'. The review says what it couldn't verify." | No AI reviewer, no "reviewed, no issues", and no "every conversation". The price check is not observable in the Showcase, so it is not named. |
+| Takeover | "Take over the chat and AFO goes silent." | No phone transfer (CS06), and no claim that takeover survives a restart. |
+| One front office | "Whichever of these a customer uses, the enquiry becomes a Case in one Inbox." | No claim that a chat and a later form always merge into one Case (BL-03). The "one per enquiry" sub-label was removed. |
+| Photos | AFO asks for a photo in chat and the customer sends the Showcase's sample photo. | No claim that AFO diagnoses from photos ("AFO does not diagnose from photos"). |
+| Not built | Not mentioned. | SMS, WhatsApp, email, call transfer, ring groups, self-serve onboarding, payments, outbound, integrations. |
+| Showcase deep links | One "Try AFO live" link to the Showcase. | No per-trade links: the Showcase opens on its own picker, so /demo/electrical would land on Plumbing. |
 
 ## Founder and company
 
-| Not claimed | Why |
+| Item | Decision |
 |---|---|
-| Legal entity, ABN/ACN, address, phone, email | None appears in the material. `contact.href` in `site.config.json` is empty until the founder supplies a real destination. |
-| Monash University affiliation | The brief allows "Melbourne / Monash context" but the repository never states the relationship (student, graduate, staff). Left for the founder to add in one line if wanted. |
-| Team size, funding, partners, awards | Not in the material. |
+| Monash University | **Used.** The founder approved "Computer Science student at Monash University" in the V2 brief. V1 had left it out because no source stated it. |
+| Founder photo | **Slot left empty.** No file in the project material is clearly labelled as the founder, and unlabelled personal images were not opened. Add a real photo with `founder.photo`. The page never shows a placeholder or avatar. |
+| LinkedIn, business email, booking link | **Slots left empty.** None appears in the material. The only proportion.systems address found is the enquiry inbox of a different client-site pitch, so it was not used. Configure these in `site.config.json`. |
+| Legal entity, ABN, address, phone | Not stated anywhere, so not shown. The footer says "© 2026 Proportion" and "A Proportion product". |
+| HVAC | **Kept** as a target market from the founder's brief. There is no HVAC demo business, so the page no longer claims that everything shown comes from the Showcase. It now says "The product views on this page are re-created from the Showcase, with its fictional businesses." |
+
+## Link preview image
+
+`public/og.png` was rebuilt from the web-chat story: "Offered 4 times (website)" and "Calendar confirmed the
+booking". V1's image showed a phone call ending in a confirmed booking, which the current evidence does not
+support.
 
 ## Vocabulary kept out on purpose
 
-"AI receptionist", "chatbot" (except to contrast), "agent", "automation platform", "omnichannel",
-"AI-powered", "seamless", "revolutionise", "transform", "supercharge", "leverage". The page describes
-behaviour instead.
+"AI receptionist", "chatbot" (except to contrast), "agent", "agentic", "automation platform", "omnichannel",
+"AI-powered", "seamless", "revolutionise", "transform", "supercharge", "leverage", "unlock", "empower", "24/7",
+"never miss". The page describes behaviour instead.

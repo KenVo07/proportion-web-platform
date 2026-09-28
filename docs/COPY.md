@@ -1,203 +1,202 @@
-# AFO landing page — exact copy
+# AFO landing page — exact copy (Showcase pending, default)
 
 Generated from the built page by `npm run copy`. Edit `src/index.html` and `build.mjs`, not this file.
 
 ## Document
 
 Title: AFO — AI Front Office for service businesses
-Meta description: AFO answers calls and web enquiries for plumbers, electricians, HVAC and cleaning businesses, works out what the job needs, offers available times and drafts quotes from your price list for you to approve.
+Meta description: AFO answers calls and web enquiries for plumbers, electricians, HVAC and cleaning businesses. It gathers the job details, offers times online and drafts quotes from your price list for you to approve.
 
 ## Header
 
-A
 AFO
 AI Front Office
 How it works
 Your rules
-Your inbox
 Showcase
+Founder
 See how it works
 
-## Section: An AI front office, built around your business.
+## Hero
 
-AI FRONT OFFICE · FOR SERVICE BUSINESSES
+An AI front office for service businesses.
+Built around your services, rules and workflows.
 
-An AI front office, built around your business.
-
-AFO answers calls and web enquiries for plumbers, electricians, HVAC and cleaning businesses. It works out what the job needs, offers available times, and drafts quotes from your price list for you to approve. You can take over any conversation, any time.
+AFO answers calls and web enquiries for plumbers, electricians, HVAC and cleaning businesses. It gathers the job details, offers times online and drafts quotes from your price list for you to approve.
 
 See how it works
 
-The live Showcase is being prepared for prospects. This page describes what it shows.
+Built in Melbourne by Minh Khoa Vo. The live Showcase opens soon. Scroll to see what it does.
 
-The AFO business view, as shown in the Showcase. Riverbend Plumbing is a fictional demo business; the people and prices are examples.
+## Hero (screen-reader only)
 
-[Visual] The AFO business view for a fictional plumbing business. A phone enquiry about a burst pipe is in the Inbox with its transcript, and a timeline shows what AFO did: opened a Case, gave the safety step first, offered times, confirmed the booking with the calendar, and drafted a quote from the price list that now waits for the owner.
+Beside this text is an illustration of the AFO product for Riverbend Plumbing, a fictional demo business. As you scroll, it follows one enquiry from the first message to the owner’s decision. Each step below describes what it shows.
 
-## Section: The job nobody has time to do properly.
-
-THE FRONT OFFICE
-
-The job nobody has time to do properly.
-Calls you can't take
-
-The phone rings while you're under a sink or up a ladder. A missed call is a customer who may ring the next number on the list.
-
-Enquiries with half the details
-
-Web forms arrive without the suburb, the fixture or the timing. Someone has to chase every one of them before it can be quoted or booked.
-
-Quotes that wait
-
-Pricing happens after hours, from memory, one message at a time. By then the customer has often moved on.
-
-A message service takes a message. A generic chatbot says whatever sounds right. Neither moves the job forward. AFO does the front-office work the way a good office manager would: it asks the right questions, works from what your business has decided, and leaves the decisions that matter to you.
-
-## Section: From first contact to a booked job, in one conversation.
-
-HOW IT WORKS
-
-From first contact to a booked job, in one conversation.
-
-Here is the same burst-pipe enquiry from the Showcase, step by step.
+## Story steps
 
 01
-A customer gets in touch
+ENQUIRY
 
-By phone, web chat, an enquiry form or your booking page. AFO answers as your business and says up front that it is an AI assistant.
+A customer gets in touch while you’re on a job.
+
+By phone, web chat, enquiry form or booking page. AFO answers as your business, says it’s an AI assistant, and puts safety first when there’s a hazard.
+
+01
+ENQUIRY
+
+The conversation becomes a Case.
+
+No chasing half-finished enquiries. What’s happening, where and how urgent are recorded on one Case, each labelled with where it came from. What’s still missing is listed, not guessed.
 
 02
-AFO works out what the job needs
+BOOKING
 
-It asks what your team would ask: what's happening, where, how urgent, and whether it's safe. If there's a hazard, the safety step comes first and the commercial questions wait. Every answer is recorded with where it came from.
+It checks availability and offers times.
+
+In web chat and on your booking page, AFO looks at your staff, hours and existing jobs, then offers times that fit.
+
+02
+BOOKING
+
+It books only the time the customer chose.
+
+The choice is recorded first, then the calendar is asked. It isn’t booked until the calendar confirms, and if it can’t confirm, AFO says so. Nothing is booked twice.
 
 03
-It offers times and books the one the customer chose
+OWNER
 
-AFO offers available times, records the customer's exact choice, and asks the calendar to confirm before anything counts as booked. If the calendar can't confirm, the customer is told it isn't booked yet. Nothing is booked twice.
+Quotes come from your price list, and wait for you.
 
-04
-Quotes come from your price list, and wait for you
+No pricing from memory after hours. When the job has what your price needs, such as a photo, AFO drafts the quote from your price list and spells out what it assumes. It waits in your Inbox until you decide.
 
-When the job has enough detail, AFO drafts a quote from your approved prices, with what the price assumes spelled out. It sits in your Inbox until you approve it, reject it or take over. The customer gets exactly the quote you approved.
+03
+OWNER
 
-05
-You can step in at any point
+You approve it. The customer gets exactly that.
 
-Take over a conversation and AFO goes silent. Reply as the business, from the same thread. Hand it back when you're done and AFO carries on with the same Case.
+Approve and send, reject, or take over. In web chat, the customer receives the exact quote you saw.
 
-[Visual] Channel labels for phone call, web chat, enquiry form and booking page, then AFO's opening message introducing itself as the business's AI assistant.
+03
+OWNER
 
-[Visual] A short exchange: the customer reports water under the kitchen sink, AFO asks whether water is still escaping, then gives the safety step of turning off the mains. Below it, recorded facts labelled by source: customer said water is still escaping and the suburb is Clayton, AFO inferred a burst or leaking pipe.
+Step into the chat whenever you like.
 
-[Visual] AFO offers Tuesday 29 September at 10:30 am with Sam, the customer accepts, and the timeline records the customer's choice, the booking request and the calendar's confirmation.
+Take over the chat and AFO goes silent. Reply as the business from the same thread, then hand it back.
 
-[Visual] An owner decision card: a $345 fixed-price quote for a burst pipe repair, marked waiting for you, with what the customer said and what the price assumes, and three buttons: Approve and send, Take over, Reject.
+## Story dock
 
-[Visual] The handling bar has switched to You're handling, with the note that AFO is silent and a button to hand back to AFO. A team member message reads: Hi Jordan, it's the owner. Sam will bring the parts.
+01Enquiry · 02Booking · 03Owner
 
-## Section: It works from what your business has decided. Not from what sounds good.
+## Section #rules
 
 YOUR BUSINESS, YOUR RULES
 
 It works from what your business has decided. Not from what sounds good.
 
-Before AFO takes a single enquiry, it is set up with your services, prices, service areas, hours, staff and the way you want things handled. That setup is the authority. The AI works inside it.
+Before it takes an enquiry, AFO is set up with your services, prices, hours, staff and which quotes need your approval. The AI works inside that setup.
 
-What AFO is given
-Services
-What you do, what you don't, and what needs a person to look first.
-Prices
-Your approved price list, and what each price assumes.
-Service areas
-The suburbs you cover.
-Hours and staff
-When you work and who does what.
-How you like things handled
-A plain-language playbook: how to greet, what to ask, when to stop and hand over.
-What you approve
-Quotes wait for you. So does anything your rules say a person should decide.
-What that means in practice
 Prices come from your price list.
-The model never invents one.
-Nothing is called booked, sent or confirmed until it is.
-If the calendar can't confirm, the customer is told it isn't booked yet.
-What you approve is exactly what the customer gets.
-The quote you saw is the quote that is sent.
-Every fact is labelled with where it came from.
-Customer said, AFO inferred, observed by staff, or still unknown.
-AFO says it is an AI assistant.
-Customers are told up front, whether they call or chat.
-Every conversation is kept as evidence and checked.
-Checks such as "booked only the time the customer chose" and "no unapproved price was quoted" run on each one.
 
-## Section: Phone, web chat, enquiry form, booking page. One place for all of it.
+A price that isn’t on it never reaches the customer.
+
+Quote drafted: $345.00 AUD
+
+Calculated from the business’s approved price list — never by the model.
+
+Booked means the calendar confirmed it.
+
+Anything less is shown as not booked.
+
+Calendar confirmed the booking
+Booking outcome unknown — not treated as booked
+What you approve is what’s sent.
+
+In web chat, the customer gets the exact quote you approved. If the job changes first, nothing is sent.
+
+Approved and delivered in the customer’s chat — the exact quote you saw.
+The job changed, so this quote is out of date.
+Every fact says where it came from.
+
+Anything the customer doesn’t know is marked as unknown.
+
+The suburb the work is in
+Clayton
+Customer said
+Whether there is a smell of gas (customer doesn’t know)
+It says it’s an AI assistant.
+
+Up front, whether customers call or chat.
+
+AI ASSISTANT
+Hi, I’m Riverbend Plumbing’s AI assistant (a demo business). What’s happening at your place?
+Safety comes before sales.
+
+When there’s a hazard, safety guidance comes first and price and booking questions wait.
+
+Safety first: commercial questions paused
+
+If you can safely reach the water meter, turn the mains tap off.
+
+Conversations are kept as evidence and checked afterwards, for example “Booked only the time the customer chose”. The review says what it couldn’t verify.
+
+## Section #channels
 
 ONE FRONT OFFICE
 
-Phone, web chat, enquiry form, booking page. One place for all of it.
+Phone, web chat, enquiry form, booking page. One Inbox.
 
-Whether a customer calls, chats, fills in the form or uses the booking page, it lands in the same Case: the job, the conversations on it, the booking, the quote, and a plain record of what AFO did. Not four disconnected bots.
+Whichever of these a customer uses, the enquiry becomes a Case in one Inbox, with the conversation, the booking, the quote and a record of what AFO did.
 
-[Visual] Four channels, phone call, website chat, enquiry form and booking page, feed into one Case, which feeds the Inbox, the calendar and the owner's quote decisions.
+[Diagram, described to screen readers as] Four channels, phone call, website chat, enquiry form and booking page, each open a Case. Cases feed the Inbox, the calendar and the owner decision.
 
-## Section: One Inbox: every conversation, what AFO did, and what needs you.
-
-YOUR SIDE OF IT
-
-One Inbox: every conversation, what AFO did, and what needs you.
-Inbox and Case
-
-Conversations grouped by job, with the transcript and a timeline of what AFO did and why. Facts show where they came from, and what AFO still needs.
-
-Owner decision
-
-Quotes wait with the price, what the customer said and what the price assumes. Approve and send, reject, or take over. Nothing goes out without you.
-
-Take over, hand back
-
-Step into any conversation and AFO goes silent. Reply as the business. Hand it back and AFO picks up the same Case.
-
-[Visual] The Inbox for the fictional Riverbend Plumbing: three conversations, one booked from a phone call, one quote waiting for the owner from website chat, and a new enquiry from the web form. The selected conversation shows its stage and review line.
-
-## Section: See it handle a job you'd actually get.
+## Section #showcase
 
 LIVE SHOWCASE
+OPENING SOON
 
-See it handle a job you'd actually get.
+See it handle a job you’d actually get.
 
-The Showcase is being prepared for prospects and is not open yet. Everything on this page describes what it does when it opens.
+The Showcase is being prepared for prospects. When it opens, you pick a fictional business, play the customer and watch the business side update.
 
-Pick a fictional business. Riverbend Plumbing, Northgate Electrical or Bayleaf Cleaning. Each has its own services, staff, prices and schedule.
-Play the customer. Chat, send an enquiry form or use the booking page. Describe a real job, or use one of the suggested scenarios.
-Open the business view. See the Inbox, the Case, the calendar and the quote waiting for a decision. Approve it, reject it, or take over the conversation yourself.
-What to expect
+R
+Riverbend Plumbing
+Burst pipe under the sink
+N
+Northgate Electrical
+Broken double power point
+B
+Bayleaf Cleaning
+Standard clean this week
 Your own private demo session.
-Fictional businesses, staff, prices and schedules. Nobody will attend, and nothing is sent to a real customer.
-AFO tells you it is an AI assistant, as it would tell your customers.
-The same runtime that is being qualified for real businesses, not a scripted mock-up.
+Fictional businesses, staff, prices and schedules. Nobody will attend.
+AFO says it’s an AI assistant, as it would to your customers.
 
-## Section: Built in Melbourne by a technical founder.
+## Section #contact
 
-WHO'S BUILDING IT
+WHO’S BUILDING IT
 
-Built in Melbourne by a technical founder.
+Minh Khoa Vo
 
-AFO is a Proportion product, built in Melbourne, Australia by founder Minh Khoa Vo. It is early-stage and deliberately careful: the product is being qualified against the real rules of real service businesses, one behaviour at a time, before it takes a paying customer's calls.
+Founder
+Computer Science student at Monash University
+Melbourne, Australia
 
-Everything described on this page is in the Showcase. If it isn't there, it isn't claimed here.
+AFO is a Proportion product, and it’s early. It’s built carefully, with its behaviour tested against written business rules before it goes near a paying customer’s calls.
 
-## Section: See what AFO would do with your next enquiry.
+The product views on this page are re-created from the Showcase, with its fictional businesses.
 
-See what AFO would do with your next enquiry.
+## Section #get-started
 
-Running a plumbing, electrical, HVAC or cleaning business and want to be one of the first to put AFO on your front office? Start with the Showcase, then talk to the founder.
+Want AFO on your front office?
+
+The Showcase opens soon. Until then, this page shows what it does.
 
 See how it works
 
+BEHIND THIS PANEL: THE REAL AFO SHOWCASE WORKSPACE, WITH A FICTIONAL BUSINESS.
+
 ## Footer
 
-A
 AFO · AI Front Office for service businesses
 
 A Proportion product, built in Melbourne, Australia. The Showcase uses fictional businesses; no real customer data appears on this site.
@@ -205,3 +204,138 @@ A Proportion product, built in Melbourne, Australia. The Showcase uses fictional
 Back to top
 
 © 2026 Proportion
+
+## Illustration strings (product UI, aria-hidden)
+
+Every string below is the AFO Showcase's own wording, shown with the fictional Riverbend Plumbing demo data.
+
+### Caption
+
+- Illustration · Riverbend Plumbing is a fictional demo businessIllustration · fictional demo business
+
+### chat
+
+- Riverbend Plumbing
+- AI assistant · live conversation
+- A team member is here
+- Website chat
+- Hi, a pipe under my kitchen sink has burst. There’s water everywhere.
+- AI assistantSorry to hear that. Is water still escaping right now?
+- Yes, it’s still going.
+- AI assistantIf you can safely reach the water meter, turn the mains tap off. Keep away from any power points near the water.
+- Done, it’s off. I’m in Clayton, and the pipe’s right there under the sink.
+- AI assistantThanks. The earliest is Tuesday 6 October at 10:30 am with Sam. Shall I book that?
+- The earliest time works. I’m Jordan Lee, 0491 570 156, 12 Demo Street, Clayton.
+- AI assistantYou’re booked for Tuesday 6 October at 10:30 am. If it’s safe, could you send a photo of the damaged pipe?
+- Photo sent
+- AI assistantThanks for the photo — that’s with the team.
+- Quote from the businessBurst pipe repair — one exposed, reachable section: $345.00 AUDIncludes $31.36 AUD tax.Total: $345.00 AUD
+- A member of the team has joined the conversation.
+- Team memberHi Jordan, it’s the owner — Sam will bring the parts.
+- Describe the job…
+- Send
+
+### case
+
+- Case
+- Burst or leaking pipe
+- New customer
+- New customer · Clayton
+- In conversation
+- Qualifying
+- Booking in progress
+- Booked
+- AFO still needs
+- What AFO did
+- 9:41 amCase opened from website chat
+- 9:42 amOffered 4 times (website)
+- 9:43 amCustomer chose Tue 6 Oct, 10:30 am
+- 9:43 amBooking requested for Tue 6 Oct, 10:30 am
+- 9:43 amCalendar confirmed the booking
+- What AFO knows — and how
+- What is happeningPipe under the kitchen sink has burstCustomer said
+- Whether water is still escaping right nowNoCustomer said
+- The suburb the work is inClaytonCustomer said
+- Whether the damaged pipe is exposed and easy to reach (for example under a sink or outside) rather than inside a wall or under the floorYesCustomer said
+
+### cal
+
+- Calendar
+- Alex
+- Sam
+- Jordan Lee
+- Booked by AFO
+- Riley
+- Offered
+- 10:30 · Sam
+- 11:00 · Sam
+- 11:30 · Riley
+- 12:00 · Riley
+- Existing jobs (sample)
+- Times AFO offered
+
+### biz
+
+- Riverbend Plumbing
+- Fictional demo
+- Inbox
+- Job
+- Calendar
+- Owner decision
+- New customer
+- Booked
+- Burst or leaking pipe
+- Website chat
+- In conversation
+- Blocked drain
+- Phone call
+- Call live
+- Priya Nair
+- New enquiry
+- Hot water fault
+- Web form
+- Activity · what happened, as it happened
+- CustomerEvidence received (1 item)
+- AFOQuote ready — waiting for your decision
+- YouApproved quote delivered in the customer’s chat
+- YouYou took over the conversation. AFO stays silent until you hand it back.
+
+### sheet
+
+- Burst or leaking pipe · Customer · Tue 6 Oct, 10:30 am
+- Waiting for you
+- Sent to customer
+- $345.00 AUD
+- This is a fixed price for the work described below.
+- Burst pipe repair — one exposed, reachable section$345.00
+- Customer said
+- problem summary: Pipe under the kitchen sink has burst
+- site suburb: Clayton
+- hazard active flooding: No
+- pipe exposed: Yes
+- Price assumes
+- Repair of one exposed, reachable section of pipe (up to 1 metre) with standard fittings, including the call-out. Excludes pipes inside walls or under floors, and any water-damage repairs.
+- 1 evidence item on this enquiry · price calculated from the business’s approved price list.
+- Approve & send
+- Take over
+- Reject
+- Approved and delivered in the customer’s chat — the exact quote you saw.
+
+### capsule
+
+- AI handling
+- Take over any time.
+- Take over
+- You’re handling
+- AFO is silent.
+- Hand back to AFO
+
+### note
+
+- AFO
+- Safety first: commercial questions paused
+- AFOSafety first: commercial questions paused
+
+### toast
+
+- Approved — the quote is in the customer’s chat.

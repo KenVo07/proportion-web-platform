@@ -1,0 +1,73 @@
+/* Motion states that sit on top of layout: the hero entrance, instant settling, reveals, the one
+   live indicator, reduced motion, and the no-JavaScript fallback. */
+
+/* Hero entrance: surfaces start slightly low and transparent until js/story.js marks the stage ready. */
+.c { --dy: 0; translate: calc(var(--x) * 1cqw) calc((var(--y) + var(--dy)) * 1cqh); }
+.js .stage:not([data-ready]) .c { --o: 0 !important; --dy: 3; }
+.stage.is-intro .c-chat { transition-delay: 0ms; }
+.stage.is-intro .c-case { transition-delay: 110ms; }
+.stage.is-intro .c-capsule { transition-delay: 260ms; }
+
+/* Backwards or skipped frames settle quickly; the recomposition itself stays smooth. */
+.stage.is-settling .c { transition-duration: 560ms, 560ms, 200ms; transition-delay: 0s; }
+.stage.is-settling .msg,
+.stage.is-settling .msg .txt,
+.stage.is-settling .sys,
+.stage.is-settling .tok,
+.stage.is-settling .fv > *,
+.stage.is-settling .src > *,
+.stage.is-settling .swap > *,
+.stage.is-settling .blk,
+.stage.is-settling .booked-tag,
+.stage.is-settling .log-list li,
+.stage.is-settling .case-needs,
+.stage.is-settling .chat-list,
+.stage.is-settling .log-list { transition-duration: 180ms; transition-delay: 0s; }
+
+/* The only loop on the page: a slow ring on the live indicators. */
+.c-capsule .live-dot, .status-pill .live-dot { position: relative; }
+.c-capsule .live-dot::after, .status-pill .live-dot::after {
+  content: ""; position: absolute; inset: -3px; border-radius: 50%;
+  border: 1.5px solid rgb(16 185 129 / 0.55);
+  animation: live-ring 2.4s var(--ease-out) infinite;
+}
+@keyframes live-ring { 0% { scale: 0.6; opacity: 0.9; } 100% { scale: 2; opacity: 0; } }
+
+/* Reveals after the story. */
+[data-reveal] { transition: opacity 700ms var(--ease-out), translate 820ms var(--ease-settle); }
+.js [data-reveal]:not(.is-in) { opacity: 0; translate: 0 14px; }
+.rule .receipt { transition: opacity 620ms var(--ease-out) 120ms, translate 760ms var(--ease-settle) 120ms, scale 760ms var(--ease-settle) 120ms; }
+.js .rule:not(.is-in) .receipt { opacity: 0; translate: 0 8px; scale: 0.98; }
+.final-panel.is-in { animation: light-sweep 1.6s var(--ease-in-out) 200ms both; }
+@keyframes light-sweep { from { --light: 200deg; } to { --light: 320deg; } }
+
+/* Reduced motion: the same frames, no movement. Surfaces change position instantly and content fades. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .stage *, .stage *::before, .stage *::after, .dock, .dock * {
+    transition-property: opacity, background-color, border-color, color !important;
+    transition-duration: 160ms !important;
+    transition-delay: 0s !important;
+    animation: none !important;
+  }
+  .c { transition: opacity 160ms linear !important; }
+  .msg { translate: 0 0 !important; clip-path: none !important; }
+  .blk.is-booked { clip-path: none !important; }
+  .blk.is-slot { scale: 1 !important; }
+  .cal-scan, .dots { display: none !important; }
+  .c-capsule .live-dot::after, .status-pill .live-dot::after { animation: none; display: none; }
+  [data-reveal], .rule .receipt { transition: opacity 200ms linear !important; translate: none !important; scale: none !important; }
+  .final-panel.is-in { animation: none; }
+  .btn, .contact-link, a.trade, .dock a { transition: none !important; }
+  .btn:active, .contact-link:active, a.trade:hover, a.trade:active, .dock a:active { translate: none; }
+  .js .hero-block { translate: none !important; }
+}
+
+/* Without JavaScript: nothing is pinned, the stage shows its hero frame, and the steps read as plain text. */
+html:not(.js) .stage-wrap { margin-block: 12px 40px; }
+html:not(.js) .step { min-height: 0; padding-block: 18px; color: var(--ink); }
+html:not(.js) .step h3 { color: var(--ink); }
+html:not(.js) .step p:not(.step-label) { color: var(--ink-2); }
+html:not(.js) .step-label { color: var(--accent); }
+html:not(.js) .step-label span { color: var(--ink-3); }
+html:not(.js) .steps { padding-bottom: 48px; }
