@@ -3,7 +3,8 @@
 ## 0. Final release candidate (2026-09-30, nine frames)
 
 **Candidate source:** `a51c28dc1e008f6bfa7cf96fd760513d875fd669` (tree `e5f24ec99c4cbce4c211d38b5367e27ce654de3b`)
-on `v2/visual-convergence`. Later commits on the branch change documentation and screenshots only.
+on `v2/visual-convergence`. Later commits on the branch change documentation, screenshots and the evidence tools
+(`tools/screenshots.mjs`, `tools/extract-copy.mjs`) only; the branch head builds byte-identical output (below).
 **Build fingerprints** (sha256 over the sorted per-file sha256 list of `dist/`, first 16 hex digits): pending
 `851320b37b5a8041`, live `c4baf65c1ea02626`. The build is deterministic (two builds, same fingerprint), built from
 `git archive` of the commit exactly as the release builder does.

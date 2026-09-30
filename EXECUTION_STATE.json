@@ -9,7 +9,7 @@
     "slow_frame_fix": "0383afc",
     "release_candidate_source": "a51c28dc1e008f6bfa7cf96fd760513d875fd669",
     "release_candidate_tree": "e5f24ec99c4cbce4c211d38b5367e27ce654de3b",
-    "later_commits": "documentation and screenshots only; the build output is unchanged"
+    "later_commits": "documentation, screenshots and evidence tooling (tools/screenshots.mjs, tools/extract-copy.mjs) only; the branch head builds byte-identical dist/ to the candidate in both Showcase states (verified from git archive)"
   },
   "build_fingerprints": {
     "method": "sha256 over the sorted per-file sha256 list of dist/, first 16 hex digits; build from git archive of the commit",
