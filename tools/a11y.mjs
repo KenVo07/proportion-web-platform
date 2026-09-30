@@ -46,7 +46,7 @@ for (const vp of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
   // The story copy sits on a pinned graphite backdrop that only exists where the viewport is, so each step
   // is checked while it is the active step on screen, as a visitor sees it. Everything else is checked whole.
   await axe(page, "page (story steps excluded)", { exclude: [[".steps"]] });
-  for (const n of [1, 3, 5, 7]) {
+  for (const n of [1, 3, 5, 7, 8]) {
     await reachState(page, n);
     // Read on until the whole step is on screen (on phones the heading arrives first).
     await page.evaluate((k) => {

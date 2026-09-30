@@ -8,7 +8,7 @@ for (const [w, h] of [[1440, 900], [1024, 768], [390, 844], [320, 568]]) {
   const p = await b.newPage({ viewport: { width: w, height: h }, reducedMotion: "reduce", isMobile: w < 800 });
   await p.goto("http://127.0.0.1:4405/", { waitUntil: "load" });
   const found = new Set();
-  for (let n = 0; n <= 7; n++) {
+  for (let n = 0; n <= 8; n++) {
     let g = 0; while ((await p.evaluate(() => +document.querySelector(".stage").dataset.state)) < n && g++ < 800) { await p.evaluate(() => scrollBy(0, 40)); await p.waitForTimeout(8); }
     await p.waitForTimeout(250);
     const bad = await p.evaluate(() => {

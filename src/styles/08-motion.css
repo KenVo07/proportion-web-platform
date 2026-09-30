@@ -2,7 +2,9 @@
    live indicator, reduced motion, and the no-JavaScript fallback. */
 
 /* Hero entrance: surfaces start slightly low and transparent until js/story.js marks the stage ready. */
-.c { --dy: 0; translate: calc(var(--x) * 1cqw) calc((var(--y) + var(--dy)) * 1cqh); }
+/* --xem/--yem add an offset in the surface's own font size, so a docked capsule lines up with the card it docks
+   into at every viewport (card chrome is sized in em, stage positions in container units). */
+.c { --dy: 0; translate: calc(var(--x) * 1cqw + var(--xem, 0) * 1em) calc((var(--y) + var(--dy)) * 1cqh + var(--yem, 0) * 1em); }
 .js .stage:not([data-ready]) .c { --o: 0 !important; --dy: 3; }
 .stage.is-intro .c-chat { transition-delay: 0ms; }
 .stage.is-intro .c-case { transition-delay: 110ms; }

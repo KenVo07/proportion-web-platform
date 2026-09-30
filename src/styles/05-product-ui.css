@@ -8,12 +8,12 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: calc(var(--w) * 1cqw);
+  width: calc(var(--w) * 1cqw - var(--wem, 0) * 1em);
   z-index: var(--z);
   scale: var(--s);
   opacity: var(--o);
   transform-origin: 0 0;
-  font-size: clamp(11px, 1.8cqw, 13.5px);
+  font-size: clamp(11px, min(1.72cqw, 1.9cqh), 14px);
   line-height: 1.42;
   color: var(--ink);
   transition:
@@ -78,6 +78,13 @@
   font: 500 0.72em/1 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent-strong);
 }
 .chat-channel .live-dot { width: 6px; height: 6px; }
+/* The Showcase customer card's channel tabs; shown where there is room (desktop). */
+.chat-tabs {
+  flex: none; display: flex; gap: 1.1em; padding: 0.55em 1em 0; border-bottom: 1px solid var(--line);
+  color: var(--ink-3); font-size: 0.92em; font-weight: 600; white-space: nowrap; overflow: hidden;
+}
+.chat-tabs span { padding-bottom: 0.5em; }
+.chat-tabs .on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--customer); }
 .chat-view { position: relative; flex: 1; overflow: hidden; }
 .chat-list {
   display: flex; flex-direction: column; gap: 0.6em; padding: 0.9em;
@@ -154,11 +161,14 @@
 }
 .fact.on { grid-template-rows: 1fr; opacity: 1; }
 .fact > div { min-height: 0; overflow: hidden; }
-.needs { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); }
+.needs {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr); padding: 0.35em 0.6em;
+  border-radius: 10px; border: 1px dashed var(--line-2); background: #fcfcfa;
+}
 .need { min-width: 0; opacity: 0; transition: opacity var(--dur-small) var(--ease-out); }
 .need > div { overflow: hidden; }
 .need.on { opacity: 1; }
-.need.is-none { position: absolute; inset: 0 0 auto 0; }
+.need.is-none { position: absolute; inset: 0; display: grid; align-items: center; padding: 0 0.6em; }
 .fact .row-in { display: grid; gap: 0.08em; padding: 0.36em 0 0.4em; border-top: 1px solid var(--line); }
 .facts .fact:first-child .row-in { border-top: 0; padding-top: 0.1em; }
 .fk { font-size: 0.8em; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -185,7 +195,7 @@
 .case-kv dd { margin: 0; font-weight: 600; justify-items: end; }
 .case-kv dd [data-v="safety"] { color: var(--warn); }
 .case-kv dd [data-v="booked"] { color: var(--accent-strong); }
-.log-view { height: calc(3 * 1.95em); overflow: hidden; }
+.log-view { height: calc(2 * 1.95em); overflow: hidden; }
 .log-list { translate: 0 calc(var(--shift, 0) * -1px); transition: translate var(--dur-small) var(--ease-out); }
 .log-list li {
   display: grid; grid-template-columns: 4.3em minmax(0, 1fr); gap: 0.4em; align-items: center;
@@ -288,10 +298,41 @@
 .biz-tabs span { position: relative; padding-bottom: 0.6em; }
 .biz-tabs .on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
 .tab-dot { position: absolute; top: -1px; right: -7px; width: 6px; height: 6px; border-radius: 50%; background: var(--warn); }
-.biz-inbox { display: grid; gap: 0.55em; padding: 0.8em; }
+.biz-inbox { display: grid; gap: 0.55em; padding: 0.8em; align-content: start; }
+/* Desktop: the Inbox list beside the selected conversation, as in the Showcase business view. */
+.biz-detail { display: none; }
+.detail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.6em; }
+.detail-head b { display: block; font-size: 1.06em; letter-spacing: -0.01em; }
+.detail-sub { display: block; margin-top: 0.1em; color: var(--ink-3); font-size: 0.86em; }
+.detail-head .ui-btn { flex: none; padding: 0.35em 0.75em; font-size: 0.88em; }
+.detail-card { border: 1px solid var(--line); border-radius: 12px; padding: 0.7em 0.85em 0.8em; }
+.detail-card .ui-label { margin-bottom: 0.45em; }
+.biz-log { display: grid; gap: 0.3em; }
+.biz-log li { display: grid; grid-template-columns: 4.4em minmax(0, 1fr); gap: 0.35em; align-items: baseline; font-size: 0.92em; }
+.biz-log time { font: 500 0.8em/1 var(--mono); color: var(--ink-3); }
+.biz-log li span { font-weight: 500; }
+.biz-log li.is-ok span { color: var(--ok); font-weight: 600; }
+.biz-log li[data-k] { opacity: 0; transition: opacity var(--dur-small) var(--ease-out); }
+.biz-log li[data-k].on { opacity: 1; }
+@media (min-width: 960px) {
+  .biz-body {
+    flex: 1; min-height: 0; display: grid;
+    grid-template-columns: 14.5em minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr);
+  }
+  .biz-body .biz-inbox { grid-column: 1; grid-row: 1 / span 2; border-right: 1px solid var(--line); }
+  .biz-detail { grid-column: 2; grid-row: 1; display: grid; align-content: start; gap: 0.75em; padding: 0.85em 0.95em 0.4em; }
+  .biz-body .biz-activity { grid-column: 2; grid-row: 2; margin-top: 0; border-top: 0; padding: 0.5em 0.95em 0.9em; }
+  .biz-body .biz-activity li { grid-template-columns: 5.2em minmax(0, 1fr); }
+}
+@media (max-width: 959px) {
+  .biz-body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+}
+@media (max-width: 959px) { .chat-tabs { display: none; } }
+/* With the tab row showing "Chat", the header's channel label is redundant on desktop and crowds the subtitle. */
+@media (min-width: 960px) { .chat-channel { display: none; } }
 .row { display: grid; gap: 0.15em; padding: 0.7em 0.85em; border: 1px solid var(--line); border-radius: 12px; }
 .row.is-selected { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.row-head { display: flex; justify-content: space-between; align-items: center; gap: 0.6em; }
+.row-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.3em 0.6em; }
 .row-head .swap { justify-items: end; }
 .row-job { color: var(--ink-2); }
 .row .chips { margin-top: 0.3em; }
@@ -334,6 +375,30 @@
 .cap-text { color: var(--ink-2); font-size: 0.94em; }
 .c-capsule .ui-btn { padding: 0.45em 0.85em; }
 
+/* ---------- The real Showcase workspace (a genuine capture), framed as a browser window ---------- */
+.c-real {
+  display: flex; flex-direction: column; overflow: hidden; border-radius: 14px; background: #0e1519;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1), 0 2px 6px rgb(0 0 0 / 0.3), 0 40px 90px -30px rgb(0 0 0 / 0.85);
+}
+.real-bar {
+  flex: none; display: flex; align-items: center; gap: 0.9em; height: 2.5em; padding: 0 0.95em;
+  background: #182127; border-bottom: 1px solid rgb(255 255 255 / 0.07); color: var(--stage-ink-2);
+}
+.real-dots { display: inline-flex; gap: 0.42em; }
+.real-dots i { width: 0.64em; height: 0.64em; border-radius: 50%; background: rgb(255 255 255 / 0.2); }
+.real-title {
+  flex: 1; text-align: center; margin-right: 2.8em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font: 500 0.76em/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.real-view { position: relative; aspect-ratio: 1440 / 900; background: var(--canvas); }
+.real-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 0 0; }
+@media (max-width: 959px) {
+  /* On a phone the frame fills the stage and crops to the business column, where the owner's state is. */
+  .c-real { height: calc(var(--h-real, 94) * 1cqh); }
+  .real-view { flex: 1; min-height: 0; aspect-ratio: auto; }
+  .real-shot { object-position: 52% 0; }
+}
+
 /* ---------- Small notes ---------- */
 .c-note {
   width: auto; display: grid; gap: 0.1em; padding: 0.6em 0.85em; border-radius: 12px;
@@ -350,5 +415,6 @@
   padding: 0.12em 0.6em; border-radius: var(--r-pill);
   background: var(--accent); color: #fff; font-weight: 600; white-space: nowrap;
   box-shadow: 0 10px 24px -8px rgb(11 102 95 / 0.7), 0 0 0 1px rgb(255 255 255 / 0.3) inset;
-  font-size: clamp(11px, 1.8cqw, 13.5px);
+  font-size: clamp(11px, min(1.72cqw, 1.9cqh), 14px);
 }
+@media (max-width: 959px) { .fact-ghost { font-size: clamp(11px, 3.1cqw, 13px); } }

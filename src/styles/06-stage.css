@@ -1,7 +1,9 @@
 /* Stage choreography: where each surface sits in each frame. Units are stage container units
    (--x in cqw, --y in cqh). Changing .stage[data-state] lets CSS transitions recompose the scene;
    js/story.js only toggles content inside surfaces and reads --fold (how much of the chat is visible).
-   States: 0 hero · 1 enquiry · 2 case · 3 offer · 4 booked · 5 quote · 6 approve · 7 takeover */
+   States: 0 hero · 1 enquiry · 2 case · 3 offer · 4 booked · 5 quote · 6 approve · 7 takeover · 8 real workspace
+   Desktop widths stay constant per surface (a width change would reflow text mid-motion); emphasis comes from
+   position, scale and layering. The owner frames give the business workspace about two thirds of the stage. */
 
 .stage-clip {
   --pad: 64px;
@@ -31,42 +33,44 @@
 }
 
 /* ---------- Desktop sizes and off-stage rest positions ---------- */
-.c-chat { --w: 46; --h-chat: 66; --x: -4; --y: 9; --fold: 0.96; }
-.c-case { --w: 52; --x: 56; --y: 22; --s: 0.96; }
-.c-cal { --w: 54; --x: 46; --y: 30; }
-.c-biz { --w: 56; --h-biz: 88; --x: 58; --y: 7; }
-.c-sheet { --w: 51; --x: 47.5; --y: 64; }
+.c-chat { --w: 42; --h-chat: 72; --x: -4; --y: 9; --fold: 0.96; }
+.c-case { --w: 54; --x: 58; --y: 22; --s: 0.96; }
+.c-cal { --w: 55; --x: 46; --y: 30; }
+.c-biz { --w: 68; --h-biz: 76; --x: 40; --y: 8; }
+/* The sheet covers exactly the business view's right column: it starts where the Inbox column (14.5em) ends. */
+.c-sheet { --w: 68; --wem: 13.9; --x: 32; --xem: 13.9; --y: 50; --yem: 9.9; }
 .c-capsule { --x: 5; --y: 94; }
-.c-note { --x: 54; --y: 1; }
-.c-toast { --x: 30; --y: 40; }
+.c-real { --w: 100; --x: 0; --y: 20; --s: 1.03; }
+.c-note { --x: 58; --y: 1; }
+.c-toast { --x: 40; --y: 42; }
 
 /* 0 · Hero: the customer's chat, the Case it is filling, and owner control. */
-.stage[data-state="0"] .c-chat { --x: 0; --y: 3; --o: 1; --z: 2; --fold: 0.96; }
-.stage[data-state="0"] .c-case { --x: 27; --y: 25; --s: 1; --o: 1; --z: 3; }
-.stage[data-state="0"] .c-capsule { --x: 2; --y: 70; --o: 1; --z: 4; }
+.stage[data-state="0"] .c-chat { --x: 1; --y: 3; --o: 1; --z: 2; --fold: 0.96; }
+.stage[data-state="0"] .c-case { --x: 36; --y: 12; --s: 1; --o: 1; --z: 3; }
+.stage[data-state="0"] .c-capsule { --x: 3; --y: 78; --o: 1; --z: 4; }
 
 /* 1 · Enquiry: the conversation takes focus; the Case waits behind. */
-.stage[data-state="1"] .c-chat { --x: 5; --y: 3; --o: 1; --z: 3; --fold: 0.96; }
-.stage[data-state="1"] .c-case { --x: 51; --y: 16; --s: 0.92; --o: 0.38; --z: 2; }
-.stage[data-state="1"] .c-note.on { --x: 55; --y: 5; --o: 1; --z: 5; }
-.stage[data-state="1"] .c-capsule { --x: 5; --y: 96; }
+.stage[data-state="1"] .c-chat { --x: 9; --y: 2; --s: 1.04; --o: 1; --z: 3; --fold: 0.96; }
+.stage[data-state="1"] .c-case { --x: 55; --y: 12; --s: 0.88; --o: 0.38; --z: 2; }
+.stage[data-state="1"] .c-note.on { --x: 57; --y: 3; --o: 1; --z: 5; }
+.stage[data-state="1"] .c-capsule { --x: 9; --y: 96; }
 
 /* 2 · Case: the Case comes forward to receive the facts. */
 .stage[data-state="2"] .c-chat { --x: 0; --y: 5; --o: 1; --z: 2; --fold: 0.96; }
-.stage[data-state="2"] .c-case { --x: 44; --y: 10; --s: 1; --o: 1; --z: 3; }
+.stage[data-state="2"] .c-case { --x: 43; --y: 5; --s: 1; --o: 1; --z: 3; }
 
 /* 3–4 · Offer and booking: Case compact top-left, the latest messages below it, the calendar right. */
 .stage[data-state="3"] .c-case,
-.stage[data-state="4"] .c-case { --x: 0; --y: 1; --s: 0.9; --o: 1; --z: 3; }
+.stage[data-state="4"] .c-case { --x: 0; --y: 0; --s: 0.84; --o: 1; --z: 3; }
 .stage[data-state="3"] .c-chat,
-.stage[data-state="4"] .c-chat { --x: 2; --y: 36; --s: 0.94; --o: 1; --z: 2; --fold: 0.96; }
+.stage[data-state="4"] .c-chat { --x: 3; --y: 44; --s: 0.96; --o: 1; --z: 2; --fold: 0.96; }
 .stage[data-state="3"] .c-cal,
-.stage[data-state="4"] .c-cal { --x: 46; --y: 24; --o: 1; --z: 3; }
+.stage[data-state="4"] .c-cal { --x: 45; --y: 19; --o: 1; --z: 3; }
 
-/* 5–7 · Owner: the customer's side on the left, the business Inbox on the right. */
+/* 5–7 · Owner: the customer's side (about a third) and the business workspace (about two thirds). */
 .stage[data-state="5"] .c-chat,
 .stage[data-state="6"] .c-chat,
-.stage[data-state="7"] .c-chat { --x: 0; --y: 6; --o: 1; --z: 2; --fold: 0.96; }
+.stage[data-state="7"] .c-chat { --x: -1; --y: 8; --s: 0.9; --o: 1; --z: 2; --fold: 0.96; }
 .stage[data-state="5"] .c-case,
 .stage[data-state="6"] .c-case,
 .stage[data-state="7"] .c-case { --x: 24; --y: 14; --s: 0.9; --o: 0; }
@@ -75,13 +79,19 @@
 .stage[data-state="7"] .c-cal { --x: 56; --y: 30; --o: 0; }
 .stage[data-state="5"] .c-biz,
 .stage[data-state="6"] .c-biz,
-.stage[data-state="7"] .c-biz { --x: 44; --y: 3; --o: 1; --z: 3; }
+.stage[data-state="7"] .c-biz { --x: 32; --y: 1; --o: 1; --z: 3; }
 .stage[data-state="5"] .c-capsule,
 .stage[data-state="6"] .c-capsule,
-.stage[data-state="7"] .c-capsule { --x: 45.5; --y: 9.6; --o: 1; --z: 5; }
+.stage[data-state="7"] .c-capsule { --x: 32; --xem: 0.75; --y: 1; --yem: 3.55; --o: 1; --z: 5; }
 .stage[data-state="5"] .c-sheet.on,
-.stage[data-state="6"] .c-sheet.on { --x: 47.5; --y: 32; --o: 1; --z: 6; }
-.stage[data-state="7"] .c-sheet { --y: 72; --o: 0; }
+.stage[data-state="6"] .c-sheet.on { --y: 1; --o: 1; --z: 6; }
+.stage[data-state="7"] .c-sheet { --y: 40; --o: 0; }
+
+/* 8 · The real workspace: the re-created views resolve into the genuine Showcase capture of the same moment. */
+.stage[data-state="8"] .c-chat { --x: -1; --y: 10; --s: 0.88; --o: 0; }
+.stage[data-state="8"] .c-biz { --x: 32; --y: 4; --s: 0.97; --o: 0; }
+.stage[data-state="8"] .c-capsule { --x: 32; --xem: 0.75; --y: 4; --yem: 3.55; --o: 0; }
+.stage[data-state="8"] .c-real { --x: 0; --y: 12; --s: 1; --o: 1; --z: 8; }
 
 /* ---------- Phones and tablets: one surface in focus, at most one more visible ---------- */
 @media (max-width: 959px) {
@@ -91,7 +101,7 @@
   .c-case { --w: 92; --x: 4; --y: 104; --s: 1; }
   .c-cal { --w: 92; --x: 4; --y: 104; }
   .c-biz { --w: 92; --h-biz: 96; --x: 4; --y: 104; }
-  .c-sheet { --w: 100; --x: 0; --y: 104; border-radius: 18px 18px 0 0; }
+  .c-sheet { --w: 100; --wem: 0; --x: 0; --xem: 0; --y: 104; --yem: 0; border-radius: 18px 18px 0 0; }
   .c-note { display: none; }
   .c-case .case-log, .c-case .case-kv { display: none; }
   .c-sheet .sheet-cols, .c-sheet .sheet-sub { display: none; }
@@ -122,13 +132,18 @@
   .stage[data-state="5"] .c-biz,
   .stage[data-state="6"] .c-biz { --x: 4; --y: 2; --o: 1; --z: 2; }
   .stage[data-state="5"] .c-capsule,
-  .stage[data-state="6"] .c-capsule { --x: 6.5; --y: 12.6; --o: 1; --z: 4; }
+  .stage[data-state="6"] .c-capsule { --x: 4; --xem: 0.7; --y: 2; --yem: 3.55; --o: 1; --z: 4; }
   .stage[data-state="5"] .c-sheet.on,
   .stage[data-state="6"] .c-sheet.on { --x: 0; --y: 43; --o: 1; --z: 6; }
   .stage[data-state="6"] .c-toast.on { --y: 30; --o: 1; --z: 8; }
 
   .stage[data-state="7"] .c-biz { --x: 4; --y: 2; --o: 0; }
-  .stage[data-state="7"] .c-capsule { --x: 4; --y: 2; --o: 1; --z: 4; }
+  .stage[data-state="7"] .c-capsule { --x: 4; --xem: 0; --y: 2; --yem: 0; --o: 1; --z: 4; }
   .stage[data-state="7"] .c-chat { --x: 4; --y: 15; --o: 1; --z: 3; --fold: 0.9; }
   .stage[data-state="7"] .c-sheet { --y: 104; --o: 0; }
+
+  .c-real { --w: 92; --h-real: 94; --x: 4; --y: 104; }
+  .stage[data-state="8"] .c-chat { --x: 4; --y: 15; --o: 0; }
+  .stage[data-state="8"] .c-capsule { --x: 4; --xem: 0; --y: 2; --yem: 0; --o: 0; }
+  .stage[data-state="8"] .c-real { --x: 4; --y: 3; --o: 1; --z: 8; }
 }

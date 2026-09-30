@@ -4,8 +4,8 @@
 
 .story {
   --dark: 0;
-  --stage-top: calc(var(--nav-top) + var(--nav-h) + 46px);
-  --stage-h: min(740px, calc(100vh - var(--stage-top) - 48px));
+  --stage-top: calc(var(--nav-top) + var(--nav-h) + 36px);
+  --stage-h: min(840px, calc(100vh - var(--stage-top) - 40px));
   position: relative;
 }
 /* The backdrop is pinned inside an absolutely positioned track that spans the whole section, so it
@@ -55,8 +55,12 @@
   color: color-mix(in srgb, var(--stage-ink-3) calc(var(--dark) * 100%), var(--ink-3));
   white-space: nowrap;
 }
-.cap-short { display: none; }
-@media (max-width: 520px) { .cap-long { display: none; } .cap-short { display: inline; } }
+.cap-mid, .cap-short { display: none; }
+@media (max-width: 520px) { .cap-long { display: none; } .cap-mid { display: inline; } }
+@media (max-width: 380px) { .cap-mid { display: none; } .cap-short { display: inline; } }
+.stage-caption { transition: opacity 360ms var(--ease-out); }
+/* In the last frame the real workspace carries its own label, so the "re-created" caption steps aside. */
+.stage-wrap.is-real .stage-caption { opacity: 0; }
 /* The lit floor under the product (Linear-style light pool); warm haze on the canvas, soft light on graphite. */
 .stage-wrap::before {
   content: "";
@@ -139,12 +143,20 @@
 .js .story:not(.is-dark) .step-label { color: var(--accent); }
 .js .story:not(.is-dark) .step-label span { color: var(--ink-3); }
 
+.step-link { margin-top: 2px; }
+.step-link a { color: var(--accent-bright); font-weight: 600; text-decoration-thickness: 1px; }
+.js .story:not(.is-dark) .step-link a { color: var(--accent); }
+
 /* ---------- Desktop: two columns, stage pinned right ---------- */
+/* The copy column is capped (390px) so the product stage gets the rest: roughly 62–66% of the width.
+   Copy explains; the product proves. */
 @media (min-width: 960px) {
   .story-grid {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    column-gap: clamp(40px, 5vw, 88px);
+    grid-template-columns: min(390px, 36%) minmax(0, 1fr);
+    column-gap: clamp(40px, 4.5vw, 72px);
   }
+  .hero-block h1 { font-size: clamp(2.2rem, 1.2rem + 2.4vw, 3.25rem); }
+  .step h3 { font-size: clamp(1.3rem, 1.05rem + 0.55vw, 1.6rem); }
   .hero-block {
     grid-column: 1;
     grid-row: 1;
@@ -165,7 +177,7 @@
   }
   .js .stage-wrap { position: sticky; top: var(--stage-top); margin-top: 0; }
   .steps { grid-column: 1; grid-row: 2; padding-bottom: 24vh; }
-  .step { min-height: 76vh; padding-block: 6vh; max-width: 460px; }
+  .step { min-height: 76vh; padding-block: 6vh; max-width: 390px; }
   /* The active step is marked with a thin accent bar, not by dimming the others (dimming breaks contrast). */
   .step { position: relative; }
   .js .step::before {

@@ -40,19 +40,26 @@ const talk = `Talk to ${founder.shortName}`;
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const arrow = '<span class="btn-arrow" aria-hidden="true">↗</span>';
+// External destinations (the Showcase, LinkedIn, a booking page) open in a new tab so the visitor keeps this page;
+// the arrow shows it and screen readers are told.
+const newTab = '<span class="visually-hidden"> (opens in a new tab)</span>';
+const extAttrs = ' target="_blank" rel="noopener"';
 const btn = (kind, href, label, { external = false, extraClass = "" } = {}) =>
-  `<a class="btn btn-${kind}${extraClass ? " " + extraClass : ""}" href="${esc(href)}"${external ? ' rel="noopener"' : ""}>${esc(label)}${external ? arrow : ""}</a>`;
+  `<a class="btn btn-${kind}${extraClass ? " " + extraClass : ""}" href="${esc(href)}"${external ? extAttrs : ""}>${esc(label)}${external ? arrow + newTab : ""}</a>`;
 
 const tryLive = (kind = "primary", extraClass = "") => btn(kind, config.showcase.url, "Try AFO live", { external: true, extraClass });
 const talkBtn = (kind) => btn(kind, "#contact", talk);
 const howBtn = (kind) => btn(kind, "#how-it-works", "See how it works");
 
-// CTA ladder: one primary action per screen.
-//   Showcase live            -> Try AFO live, then Talk to Khoa (or See how it works)
-//   Showcase pending + contact -> Talk to Khoa, then See how it works
-//   Showcase pending, no contact -> See how it works
-const primary = (kind = "primary") => (live ? tryLive(kind) : hasContact ? talkBtn(kind) : howBtn(kind));
-const secondary = (kind = "secondary") => (live ? (hasContact ? talkBtn(kind) : howBtn(kind)) : hasContact ? howBtn(kind) : "");
+// CTA ladder (one primary action per screen). The Showcase is the strongest proof, so once it is live it leads
+// everywhere; while it is pending nothing links to it.
+//                 Nav             Hero                              Final panel
+//   live          Try AFO live    Try AFO live · See how it works   Try AFO live · Talk to Khoa (if contact)
+//   pending       Talk to Khoa    See how it works · Talk to Khoa   Talk to Khoa · See how it works
+//                 (or See how it works when no contact is configured; Talk to Khoa is omitted without contact)
+const navCta = live ? tryLive("primary") : hasContact ? talkBtn("primary") : howBtn("primary");
+const heroCtas = live ? tryLive("primary") + howBtn("secondary") : howBtn("primary") + (hasContact ? talkBtn("secondary") : "");
+const finalCtas = live ? tryLive("primary") + (hasContact ? talkBtn("glass") : "") : hasContact ? talkBtn("primary") + howBtn("glass") : howBtn("primary");
 
 const ICONS = {
   linkedin: '<svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.55 4.77 5.87v5.58h-4v-4.95c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62v5.03h-4v-11Z"/></svg>',
@@ -61,9 +68,9 @@ const ICONS = {
 };
 
 const contactList = contacts.map((c) => `
-          <li><a class="contact-link contact-${c.kind}" href="${esc(c.href)}"${c.external ? ' rel="noopener"' : ""}>
+          <li><a class="contact-link contact-${c.kind}" href="${esc(c.href)}"${c.external ? extAttrs : ""}>
             <span class="contact-icon" aria-hidden="true">${ICONS[c.kind]}</span>
-            <span class="contact-text"><span class="contact-label">${esc(c.label)}${c.external ? arrow : ""}</span><span class="contact-detail">${esc(c.detail)}</span></span>
+            <span class="contact-text"><span class="contact-label">${esc(c.label)}${c.external ? arrow + newTab : ""}</span><span class="contact-detail">${esc(c.detail)}</span></span>
           </a></li>`).join("");
 
 
@@ -84,16 +91,24 @@ const slots = {
   SHOWCASE_URL: esc(config.showcase.url),
   SHOWCASE_STATE: live ? "live" : "pending",
 
-  NAV_CTA: primary("primary"),
-  HERO_CTAS: `${primary("primary")}${secondary("secondary")}`,
-  HERO_NOTE: live ? "Fictional businesses, real conversations. Nothing to install." : "The live Showcase opens soon. Scroll to see what it does.",
+  NAV_CTA: navCta,
+  HERO_CTAS: heroCtas,
+  HERO_NOTE: live
+    ? "Fictional businesses, real conversations. Nothing to install."
+    : 'The <a href="#showcase">Live Showcase</a> is coming online.',
 
+  // Live Showcase section. Pending: the same section, with a status instead of a link (no dead action).
+  SHOWCASE_STATUS: live ? '<span class="status-pill is-live"><span class="live-dot" aria-hidden="true"></span>Open now</span>' : "",
   SHOWCASE_LEAD: live
-    ? "Pick a fictional business and play the customer. Then open the business side and see what AFO recorded and did."
-    : "The Showcase is being prepared for prospects. When it opens, you pick a fictional business, play the customer and watch the business side update.",
-  SHOWCASE_STATUS: live ? '<span class="status-pill is-live"><span class="live-dot" aria-hidden="true"></span>Open now</span>' : '<span class="status-pill">Opening soon</span>',
-  SHOWCASE_PHONE: phoneLive ? '<li>Get a call code on screen and ring the demo line from your own phone.</li>' : "",
-  SHOWCASE_CTAS: live ? tryLive("primary", "btn-lg") : hasContact ? talkBtn("primary") : "",
+    ? "The Live Showcase is the AFO product itself, running with fictional businesses. It opens in your browser."
+    : "The Live Showcase is the AFO product itself, running with fictional businesses. It opens to visitors once final validation is complete.",
+  SHOWCASE_ACTION: live
+    ? `${tryLive("primary", "btn-lg")}<p class="showcase-dest">${esc(new URL(config.showcase.url).host)} · opens in a new tab</p>`
+    : '<p class="showcase-pending"><span class="pending-dot" aria-hidden="true"></span><span><b>Live demo coming online</b>Final validation in progress.</span></p>',
+  SHOWCASE_CHAT_TITLE: phoneLive ? "Call or message AFO like a customer." : "Message AFO like a customer.",
+  SHOWCASE_CHAT_TEXT: phoneLive
+    ? "Chat, send an enquiry, book online, or get a call code and ring the demo line from your own phone."
+    : "Chat, send an enquiry or book online. Describe a real job, or pick a suggested scenario.",
 
   CONTACT_LIST: hasContact ? `<ul class="contact-list">${contactList}\n        </ul>` : "",
   CONTACT_NOTE: "",
@@ -104,12 +119,12 @@ const slots = {
       ? `Play the customer in the Showcase. Then talk to ${esc(founder.shortName)} about your services, prices and how you like jobs handled.`
       : "Play the customer in the Showcase and watch the business side update."
     : hasContact
-      ? `Talk to ${esc(founder.shortName)} about your services, prices and how you like jobs handled. The Showcase opens soon.`
-      : "The Showcase opens soon. Until then, this page shows what it does.",
-  FINAL_CTAS: `${primary("primary")}${secondary("glass")}`,
+      ? `Talk to ${esc(founder.shortName)} about your services, prices and how you like jobs handled. The Live Showcase is coming online.`
+      : "The Live Showcase is coming online. Until then, this page shows what it does.",
+  FINAL_CTAS: finalCtas,
 
   FOOTER_LINKS: [
-    live ? `<a href="${esc(config.showcase.url)}" rel="noopener">Live Showcase</a>` : "",
+    live ? `<a href="${esc(config.showcase.url)}"${extAttrs}>Live Showcase${newTab}</a>` : "",
     hasContact ? `<a href="#contact">${esc(talk)}</a>` : "",
   ].filter(Boolean).join(""),
 };
@@ -178,4 +193,4 @@ const summary = [`showcase ${config.showcase.state}`, phoneLive ? "phone line li
 console.log(`build: dist/ written (${summary})`);
 if (!hasContact) console.warn("build: no LinkedIn, email or booking URL configured; the Talk-to buttons and contact list are omitted.");
 if (!photoOut) console.warn("build: founder.photo is empty; the founder section renders without a photo.");
-if (phoneLive) console.warn("build: phoneLine is live. Only publish this once the demo line's open booking defects (LPH-13, LPH-14) are closed.");
+if (phoneLive) console.warn("build: phoneLine is live. Publish that only after the founder's real call on the demo line has been observed and the Showcase is approved for prospects.");

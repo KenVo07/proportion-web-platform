@@ -1,0 +1,17 @@
+# AFO Landing V2 — cloud continuation
+- Mission: finish the public Landing V2 nine-frame product story and its measured visual/performance qualification.
+- Branch: `v2/visual-convergence` (same pre-checkpoint commit as `main`; dirty files carried across without change).
+- Pre-checkpoint HEAD: `bf6bd695e4174ca34dba424c6460567c5453523e`
+- Pre-checkpoint tree: `b59b9c749d7fa1032eefeee30651d3d0636a69ef`
+- Recovery: repository was in desktop Trash, with metadata naming `/home/khoa/Projects/afo-public-website-v1`; restored to that path on 2026-09-30.
+- Remote: none at recovery; `origin` now points to `https://github.com/KenVo07/proportion-web-platform.git` for this feature-branch checkpoint.
+- Dirty at recovery: 14 tracked files, no staged or untracked files; `dist/` and `node_modules/` are ignored and excluded.
+- Current changes: `build.mjs`; `src/index.html`, `src/js/story.js`, `src/assets/showcase-workspace.webp`; six `src/styles/*.css` files; `tools/{a11y,check,screenshots,stage-check}.mjs`.
+- Completed: founder pass built and visually corrected the nine-frame desktop/mobile story; the real Workspace capture is lazy-loaded in the owner chapter.
+- Visual evidence: responsive checks at 1280/1440/1600/1920 and phone; actual scroll-through motion inspected; accessibility passed; layout shift was 0.
+- Stop: interrupted while investigating desktop slow frames rising from about 0.5% to 3.4%; no cause or fix is recorded.
+- Durable report: `docs/QA_REPORT.md` is the older 2026-09-29 eight-frame baseline with 0.5% desktop slow frames; no `EXECUTION_STATE.json` exists.
+- Product sources: Client Workspace V1 is final and approved as canonical Workspace visual/product source; Showcase V2.1 and Founder Interactive Preview Closure are complete.
+- Public boundary: founder preview is local-only and MUST NOT become a public CTA; no deployment is authorized by this checkpoint.
+- Remaining, in order: isolate the slow-frame regression on the current bytes; record the finding and measured correction; compare final Workspace imagery/product wording with the canonical source; update durable Landing evidence; obtain separate release approval.
+- First cloud action: inspect the uncommitted story/stage changes and profile a full desktop scroll at 1440 before changing the design.

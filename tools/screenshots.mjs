@@ -1,6 +1,6 @@
 // Founder-review screenshot set in docs/screenshots/:
 //   fold-<width>.png            first screen after the hero intro, at 320 / 390 / 768 / 1024 / 1440 / 1920
-//   story-<width>-<frame>.jpg   each of the 8 story frames at 1440 and 390 (reduced motion = final frame)
+//   story-<width>-<frame>.jpg   each of the 9 story frames at 1440 and 390 (reduced motion = final frame)
 //   page-<width>-NN.jpg         the whole page as consecutive viewport screens at 1440 and 390
 //   motion-*.jpg                filmstrips of the hero intro, the fact flights and the booking chain
 // SHOTS_DIR overrides the output folder (used for the live-Showcase variant).
@@ -26,7 +26,7 @@ const reach = async (page, n) => {
   await page.evaluate(() => scrollBy(0, innerWidth >= 960 ? 60 : 40));
 };
 
-for (const [w, h] of [[320, 568], [390, 844], [768, 1024], [1024, 768], [1440, 900], [1920, 1080]]) {
+for (const [w, h] of [[320, 568], [390, 844], [768, 1024], [1024, 768], [1280, 800], [1440, 900], [1600, 900], [1920, 1080]]) {
   const page = await browser.newPage({ viewport: { width: w, height: h }, ...mobile(w) });
   await page.goto(URL_, { waitUntil: "load" });
   await page.waitForTimeout(3800);
@@ -35,12 +35,12 @@ for (const [w, h] of [[320, 568], [390, 844], [768, 1024], [1024, 768], [1440, 9
   console.log(`fold ${w}x${h}: horizontal overflow ${overflow}px`);
   await page.close();
 }
-for (const [w, h] of [[1440, 900], [390, 844]]) {
+for (const [w, h] of [[1440, 900], [1920, 1080], [1280, 800], [390, 844]]) {
   const page = await browser.newPage({ viewport: { width: w, height: h }, reducedMotion: "reduce", ...mobile(w) });
   await page.goto(URL_, { waitUntil: "load" });
   await page.waitForTimeout(500);
   await page.screenshot({ path: join(out, `story-${w}-0.jpg`), type: "jpeg", quality: 80 });
-  for (let n = 1; n <= 7; n++) { await reach(page, n); await page.waitForTimeout(500); await page.screenshot({ path: join(out, `story-${w}-${n}.jpg`), type: "jpeg", quality: 80 }); }
+  for (let n = 1; n <= 8; n++) { await reach(page, n); await page.waitForTimeout(500); await page.screenshot({ path: join(out, `story-${w}-${n}.jpg`), type: "jpeg", quality: 80 }); }
   await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(300);
   const H = await page.evaluate(() => document.documentElement.scrollHeight);
   let i = 0;
@@ -72,6 +72,7 @@ await filmstrip("1-hero-intro", 12, 260);
 await filmstrip("2-facts-to-case", 12, 180, async (p) => { await p.waitForTimeout(3500); await reach(p, 1); await p.waitForTimeout(3200); await reach(p, 2); });
 await filmstrip("3-booking-chain", 12, 330, async (p) => { await p.waitForTimeout(3500); for (const n of [1, 2, 3]) { await reach(p, n); await p.waitForTimeout(3000); } await reach(p, 4); });
 await filmstrip("4-owner-approve", 8, 300, async (p) => { await p.waitForTimeout(3500); for (const n of [1, 2, 3, 4, 5]) { await reach(p, n); await p.waitForTimeout(n === 5 ? 3000 : 1200); } await reach(p, 6); });
+await filmstrip("5-real-workspace", 8, 200, async (p) => { await p.waitForTimeout(3500); for (const n of [1, 2, 3, 4, 5, 6, 7]) { await reach(p, n); await p.waitForTimeout(n === 7 ? 2500 : 900); } await reach(p, 8); });
 await browser.close();
 server.close();
 console.log(`screenshots written to ${out}`);

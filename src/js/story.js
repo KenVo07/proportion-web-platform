@@ -11,10 +11,11 @@ const ADD = [
   ["busy", "slot-a:offered", "slot-b:offered", "slot-c:offered", "slot-d:offered", "L4", "m6"],
   ["m7", "L5", "L6", "L7", "booked-blk", "booked-tag", "m8", "slot-a:gone", "slot-b:gone", "slot-c:gone", "slot-d:gone"],
   ["m9", "m10", "A0", "sheet", "A1"],
-  ["m11", "toast", "A2"],
+  ["m11", "toast", "A2", "B5"],
   ["m12", "m13", "A3"],
+  [],
 ];
-const REMOVE = [[], [], ["note-safety", "n-escaping", "n-suburb", "n-exposed"], [], [], [], [], ["sheet", "toast"]];
+const REMOVE = [[], [], ["note-safety", "n-escaping", "n-suburb", "n-exposed"], [], [], [], [], ["sheet", "toast"], []];
 const SWAPS = [
   { "chat-sub": "ai", "case-sub": "new", "case-stage": "conv", appt: "none", quote: "none", handling: "ai", "quote-status": "wait", "sheet-actions": "actions" },
   { quote: "safety" },
@@ -24,6 +25,7 @@ const SWAPS = [
   {},
   { "quote-status": "sent", "sheet-actions": "result" },
   { handling: "human", "chat-sub": "team" },
+  {},
 ];
 
 // Choreography for arriving at frame n from n-1: [ms, action]. Actions: "key" (on), "-key" (off),
@@ -41,6 +43,7 @@ const SEQUENCES = [
   [[350, "m9"], [700, "A0"], [950, "typing:m10"], [1450, "m10"], [1500, "sheet"], [1750, "A1"]],
   [[350, "press:approve-press"], [620, "swap:quote-status=sent"], [620, "swap:sheet-actions=result"], [900, "m11"], [950, "toast"], [1000, "A2"]],
   [[0, "-sheet"], [0, "-toast"], [420, "swap:handling=human"], [620, "swap:chat-sub=team"], [820, "m12"], [1000, "A3"], [1400, "m13"]],
+  [],
 ];
 const INTRO_START = { layers: 120 };
 
@@ -59,7 +62,6 @@ export function initStory({ reduceMotion }) {
   for (const el of stage.querySelectorAll("[data-slot]")) (slots[el.dataset.slot] ||= []).push(el);
   const swaps = Object.fromEntries([...stage.querySelectorAll("[data-swap]")].map((el) => [el.dataset.swap, el]));
   const chat = stage.querySelector(".c-chat");
-  const chatHead = chat.querySelector(".chat-head");
   const chatView = chat.querySelector(".chat-view");
   const chatList = chat.querySelector(".chat-list");
   const logList = stage.querySelector(".log-list");
@@ -111,6 +113,7 @@ export function initStory({ reduceMotion }) {
   function settle(n) {
     clearTimers();
     for (const g of stage.querySelectorAll(".fact-ghost")) g.remove();
+    loadReal(n);
     const { on, slotState, swapState } = frame(n);
     for (const key of byKey.keys()) setOn(key, on.has(key));
     for (const id of Object.keys(slots)) setSlot(id, slotState[id] || null);
@@ -123,7 +126,7 @@ export function initStory({ reduceMotion }) {
   function layoutLists() {
     // Keep the newest visible chat message at the bottom of the part of the chat that is on screen.
     const fold = parseFloat(getComputedStyle(chat).getPropertyValue("--fold")) || 0.96;
-    const viewTop = chatHead.offsetHeight;
+    const viewTop = chatView.offsetTop;
     const visible = Math.min(chatView.clientHeight, chat.offsetHeight * fold - viewTop);
     const shown = [...chatList.children].filter((el) => el.classList.contains("on") || el.classList.contains("typing"));
     const last = shown[shown.length - 1];
@@ -187,10 +190,20 @@ export function initStory({ reduceMotion }) {
   }
   function play(seq) { for (const [ms, action] of seq) later(ms, () => run(action)); }
 
+  // The real workspace capture is fetched only once the story reaches the owner chapter, so first visits
+  // never pay for it. The final section shows the same file, so it is then already cached.
+  const realShot = stage.querySelector(".real-shot");
+  function loadReal(n) {
+    if (realShot && n >= 5 && !realShot.src) realShot.src = realShot.dataset.src;
+  }
+  const wrap = stage.closest(".stage-wrap");
+
   function go(n) {
     if (n === current) return;
     const prev = current;
     current = n;
+    loadReal(n);
+    wrap?.classList.toggle("is-real", n === 8);
     stage.classList.toggle("is-settling", !(prev !== null && n === prev + 1) || reduced());
     if (prev !== null && n === prev + 1 && !reduced()) {
       settle(prev);            // finish whatever was mid-flight

@@ -78,35 +78,66 @@
 }
 
 /* ---------- Live Showcase ---------- */
+/* One section, two states from site.config.json: pending shows an understated status (no link at all);
+   live shows the one strong action. The journey below it is the same in both. */
 .showcase { overflow: hidden; isolation: isolate; }
 .showcase::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: radial-gradient(900px 460px at 50% 115%, rgb(111 214 200 / 0.12), transparent 65%),
     radial-gradient(700px 400px at 10% -10%, rgb(120 150 200 / 0.08), transparent 60%);
 }
-.showcase .section-head { max-width: 760px; }
-.trades { display: grid; gap: 14px; }
-.trade {
-  position: relative; display: grid; gap: 4px; padding: 22px 22px 20px; border-radius: 18px;
-  background: var(--paper); color: var(--ink); text-decoration: none;
-  box-shadow: inset 0 3px 0 var(--trade), var(--shadow-card-dark);
-  transition: translate var(--dur-small) var(--ease-settle), box-shadow var(--dur-small) var(--ease-out);
+.showcase-head { display: grid; gap: 28px; margin-bottom: clamp(36px, 5vw, 56px); }
+.showcase .section-head { max-width: 760px; margin-bottom: 0; }
+.showcase h2 { max-width: 20ch; }
+.showcase-action { display: grid; gap: 10px; justify-items: start; align-content: end; }
+.showcase-dest { font: 500 0.72rem/1.4 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--stage-ink-3); }
+.showcase-pending {
+  display: flex; align-items: flex-start; gap: 12px; max-width: 30rem;
+  padding: 14px 18px 15px 16px; border-radius: 14px;
+  border: 1px dashed rgb(255 255 255 / 0.22); background: rgb(255 255 255 / 0.04); color: var(--stage-ink-2);
 }
-a.trade:hover { translate: 0 -3px; box-shadow: inset 0 3px 0 var(--trade), 0 0 0 1px rgb(255 255 255 / 0.1), 0 40px 70px -30px rgb(0 0 0 / 0.75); }
-a.trade:active { translate: 0 -1px; }
-.trade-mark {
-  display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 12px; border-radius: 50%;
-  background: var(--trade); color: #fff; font-weight: 700;
+.showcase-pending b { display: block; color: #fff; font-weight: 600; margin-bottom: 1px; }
+.pending-dot {
+  flex: none; width: 9px; height: 9px; margin-top: 0.45em; border-radius: 50%;
+  background: #f5b041; box-shadow: 0 0 0 3px rgb(245 176 65 / 0.18);
 }
-.trade-name { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.01em; }
-.trade-job { color: var(--ink-3); font-size: 0.95rem; }
-.trade-go { position: absolute; top: 24px; right: 22px; font-size: 0.875rem; font-weight: 600; color: var(--trade); }
-.showcase-foot { display: grid; gap: 28px; margin-top: 36px; }
-.expect { display: grid; gap: 10px; color: var(--stage-ink-2); }
+.journey { display: grid; gap: 16px; counter-reset: journey; }
+.journey-step {
+  display: grid; align-content: start; gap: 10px; padding: 22px 22px 24px; border-radius: 20px;
+  background: rgb(255 255 255 / 0.035); border: 1px solid var(--stage-line);
+}
+.journey-num { font: 500 var(--fs-label)/1 var(--mono); letter-spacing: 0.08em; color: var(--accent-bright); }
+.journey-step h3 { color: #fff; font-size: clamp(1.15rem, 1.05rem + 0.35vw, 1.3rem); }
+.journey-step > p { color: var(--stage-ink-2); font-size: 0.975rem; max-width: 36ch; }
+/* Small product fragments in the Showcase's own look: they show what the visitor will meet, not new claims. */
+.journey-trades, .journey-chat, .journey-row { margin-top: 8px; font-size: 0.875rem; line-height: 1.42; color: var(--ink); }
+.journey-trades { display: grid; gap: 8px; }
+.journey-trades li {
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 12px;
+  background: var(--paper); box-shadow: inset 3px 0 0 var(--trade);
+}
+.journey-trades .trade-mark {
+  display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--trade); color: #fff; font-weight: 700; font-size: 0.8rem;
+}
+.journey-trades b { display: block; font-weight: 600; }
+.journey-trades small { display: block; color: var(--ink-3); font-size: 0.8rem; }
+.journey-chat { display: grid; gap: 8px; padding: 12px; border-radius: 14px; background: var(--paper); }
+.journey-chat .msg { opacity: 1; translate: none; clip-path: none; max-width: 92%; }
+.journey-chat .msg.is-afo .txt { opacity: 1; }
+.journey-row { display: grid; gap: 3px; padding: 12px 14px; border-radius: 14px; background: var(--paper); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.journey-row .chips { margin-top: 6px; }
+.expect { display: grid; gap: 10px; margin-top: 32px; color: var(--stage-ink-2); }
 .expect li { position: relative; padding-left: 20px; }
 .expect li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-bright); }
-@media (min-width: 760px) { .trades { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
-@media (min-width: 900px) { .showcase-foot { grid-template-columns: minmax(0, 1fr) auto; align-items: end; } }
+@media (min-width: 860px) {
+  .journey { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .expect { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 28px; }
+}
+@media (min-width: 1000px) {
+  .showcase-head { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; }
+  .showcase-action { justify-items: end; text-align: right; }
+}
 
 /* ---------- Founder ---------- */
 .founder-grid { display: grid; gap: 28px 64px; align-items: start; }
