@@ -21,9 +21,10 @@ const mobile = (w) => ({ isMobile: w < 800, hasTouch: w < 800 });
 const reach = async (page, n) => {
   let g = 0;
   while ((await page.evaluate(() => +document.querySelector(".stage").dataset.state)) < n && g++ < 900) {
-    await page.evaluate(() => scrollBy(0, 36)); await page.waitForTimeout(12);
+    // Instant: the page scrolls smoothly, and a smooth scroll restarted every 12 ms barely moves.
+    await page.evaluate(() => scrollBy({ top: 36, behavior: "instant" })); await page.waitForTimeout(12);
   }
-  await page.evaluate(() => scrollBy(0, innerWidth >= 960 ? 60 : 40));
+  await page.evaluate(() => scrollBy({ top: innerWidth >= 960 ? 60 : 40, behavior: "instant" }));
 };
 
 for (const [w, h] of [[320, 568], [390, 844], [768, 1024], [1024, 768], [1280, 800], [1440, 900], [1600, 900], [1920, 1080]]) {

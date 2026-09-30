@@ -49,11 +49,11 @@ const data = await page.evaluate(() => {
     const items = [];
     const walker = document.createTreeWalker(c, NodeFilter.SHOW_ELEMENT);
     const seen = new Set();
-    for (const el of c.querySelectorAll(".msg, .sys, .fact, .chip, .pill, .ui-label, .ui-btn, .log-list li, .offer, .row-head b, .row-job, .sheet-total, .sheet-sub, .sheet-line, .sheet-cols li, .sheet-foot, .sheet-result, .sheet-meta, .cap-text, .case-id b, .case-sub > *, .chat-id b, .chat-id .swap > *, .chat-channel, .biz-top b, .biz-tabs span, .biz-activity li, .lane-name, .cal-head b, .booked-tag, .blk.is-booked, .lg, .appt, .kicker, .c-note b, .c-toast, .chat-compose > span:first-child")) {
+    for (const el of c.querySelectorAll(".msg, .sys, .fact, .chip, .pill, .ui-label, .ui-btn, .log-list li, .offer, .row-head b, .row-job, .sheet-total, .sheet-sub, .sheet-line, .sheet-cols li, .sheet-foot, .sheet-result, .sheet-meta, .cap-text, .case-id b, .case-sub > *, .chat-id b, .chat-id .swap > *, .chat-channel, .biz-top b, .biz-tabs span, .biz-activity li, .lane-name, .cal-head b, .booked-tag, .blk.is-booked, .lg, .appt, .kicker, .c-note b, .chat-compose > span:first-child, .chat-tabs span, .detail-head b, .detail-sub, .biz-log li, .real-title")) {
       const t = el.textContent.replace(/\s+/g, " ").trim();
       if (t && !seen.has(t)) { seen.add(t); items.push(t); }
     }
-    if (c.classList.contains("c-toast") || c.classList.contains("c-note")) { const t = c.textContent.replace(/\s+/g, " ").trim(); if (!seen.has(t)) items.push(t); }
+    if (c.classList.contains("c-note")) { const t = c.textContent.replace(/\s+/g, " ").trim(); if (!seen.has(t)) items.push(t); }
     groups.push({ name, items });
   }
   return { out, groups };
