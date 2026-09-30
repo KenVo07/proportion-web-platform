@@ -47,7 +47,7 @@ configurations:
 - **Configuration A has no contact route.** Set `contact.linkedin` or `contact.email` before any outreach, and
   "Talk to Khoa" becomes the primary action.
 - **Until the Showcase is live, question 5 has no hands-on answer.** The story is the substitute.
-- **The story is seven steps long on a phone.** The chapter dock lets a visitor jump, and the first screen
+- **The story is eight steps long on a phone** (seven re-created frames and the real capture). The chapter dock lets a visitor jump, and the first screen
   already answers questions 1 to 4 without scrolling.
 - **"HVAC"** is the brief's term. Some Australian tradies say "heating and cooling" or "air con". This is a copy
   decision for the founder.

@@ -1,6 +1,6 @@
-// The product stage. Eight frames (0 hero … 7 takeover). Moving forward one frame plays that frame's
-// choreography on a clock; moving backwards or skipping settles instantly. Layout per frame is pure CSS
-// (06-stage.css keys off data-state); this module only switches content inside the surfaces.
+// The product stage. Nine frames (0 hero … 7 takeover, 8 the real Showcase capture). Moving forward one
+// frame plays that frame's choreography on a clock; moving backwards or skipping settles instantly. Layout
+// per frame is pure CSS (06-stage.css keys off data-state); this module only switches content inside the surfaces.
 
 // What each frame adds and removes, cumulatively. Keys match [data-k] in the markup.
 // "slot-x:status" sets a calendar slot; swap groups (SWAPS) crossfade text states in a fixed box.
@@ -11,11 +11,11 @@ const ADD = [
   ["busy", "slot-a:offered", "slot-b:offered", "slot-c:offered", "slot-d:offered", "L4", "m6"],
   ["m7", "L5", "L6", "L7", "booked-blk", "booked-tag", "m8", "slot-a:gone", "slot-b:gone", "slot-c:gone", "slot-d:gone"],
   ["m9", "m10", "A0", "sheet", "A1"],
-  ["m11", "toast", "A2", "B5"],
+  ["m11", "A2", "B5"],
   ["m12", "m13", "A3"],
   [],
 ];
-const REMOVE = [[], [], ["note-safety", "n-escaping", "n-suburb", "n-exposed"], [], [], [], [], ["sheet", "toast"], []];
+const REMOVE = [[], [], ["note-safety", "n-escaping", "n-suburb", "n-exposed"], [], [], [], [], ["sheet"], []];
 const SWAPS = [
   { "chat-sub": "ai", "case-sub": "new", "case-stage": "conv", appt: "none", quote: "none", handling: "ai", "quote-status": "wait", "sheet-actions": "actions" },
   { quote: "safety" },
@@ -41,8 +41,8 @@ const SEQUENCES = [
     [1750, "slot-a:requested"], [1750, "L6"], [1750, "swap:case-stage=booking"], [2550, "booked-blk"], [2550, "L7"], [2550, "swap:case-stage=booked"],
     [2700, "swap:appt=booked"], [2750, "slot-a:gone"], [2800, "booked-tag"], [3050, "typing:m8"], [3650, "m8"]],
   [[350, "m9"], [700, "A0"], [950, "typing:m10"], [1450, "m10"], [1500, "sheet"], [1750, "A1"]],
-  [[350, "press:approve-press"], [620, "swap:quote-status=sent"], [620, "swap:sheet-actions=result"], [900, "m11"], [950, "toast"], [1000, "A2"]],
-  [[0, "-sheet"], [0, "-toast"], [420, "swap:handling=human"], [620, "swap:chat-sub=team"], [820, "m12"], [1000, "A3"], [1400, "m13"]],
+  [[350, "press:approve-press"], [620, "swap:quote-status=sent"], [620, "swap:sheet-actions=result"], [900, "m11"], [1000, "A2"]],
+  [[0, "-sheet"], [420, "swap:handling=human"], [620, "swap:chat-sub=team"], [820, "m12"], [1000, "A3"], [1400, "m13"]],
   [],
 ];
 const INTRO_START = { layers: 120 };
@@ -132,10 +132,11 @@ export function initStory({ reduceMotion }) {
     const last = shown[shown.length - 1];
     const bottom = last ? last.offsetTop + last.offsetHeight + 14 : 0;
     chatList.style.setProperty("--shift", Math.max(0, Math.round(bottom - visible)));
-    // The log shows its last three entries.
+    // The log shows its latest entries, as many as its window holds (the window's height is set in CSS).
     const entries = [...logList.children].filter((el) => el.classList.contains("on"));
-    const rows = Math.max(0, entries.length - 3);
     const rowH = logList.firstElementChild ? logList.firstElementChild.offsetHeight : 0;
+    const fit = rowH ? Math.max(1, Math.round(logList.parentElement.clientHeight / rowH)) : 3;
+    const rows = Math.max(0, entries.length - fit);
     logList.style.setProperty("--shift", rows * rowH);
   }
 

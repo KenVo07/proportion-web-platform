@@ -61,3 +61,25 @@ support.
 "AI receptionist", "chatbot" (except to contrast), "agent", "agentic", "automation platform", "omnichannel",
 "AI-powered", "seamless", "revolutionise", "transform", "supercharge", "leverage", "unlock", "empower", "24/7",
 "never miss". The page describes behaviour instead.
+
+## Final V2 pass (2026-09-30): wording and UI reconciled against the real capture
+
+The founder pass added a ninth frame (a real Showcase capture) and some new re-created detail. Each new string was
+checked against the only Product evidence available to this pass, the capture itself
+(`src/assets/showcase-workspace.webp`) and the audited copy above. Anything neither shows was removed or reworded.
+
+| Was | Now | Why |
+|---|---|---|
+| A "Job details" button and a masked number ("•••156") in the business view's detail header | "Burst or leaking pipe · New customer · Clayton" only | Neither appears in the capture or the audited copy. |
+| "Quote delivered in the customer's chat" (What AFO did) | "Approved quote delivered in the customer's chat" | The capture's own Activity wording. |
+| "Quote ready for you" chip (Showcase section) | "Waiting for you" | The decision card's audited chip. |
+| "Describe a real job, or pick a suggested scenario." | "Describe a job you'd actually get." | No evidence that the Showcase offers suggested scenarios. |
+| "All of it comes from the real product." (frame 8) | "This is the real product." plus "The views above are re-created from the AFO Showcase. This is a capture of the Showcase itself…" | The re-created views are adapted (panels combined, dates moved), so "all of it" overstated. |
+| "Try the real product." heading while the Showcase is pending | "Try the real product, soon." (pending) / "Try the real product." (live) | No imperative to try something that is not open yet. |
+| "The product views on this page are re-created…" (founder note) | "…in the story are re-created… The last one, and the image behind the final panel, are captures of the Showcase itself." | There are now real captures on the page. |
+
+**Not reconciled here:** Client Workspace V1 is the stated Product authority, but its source and evidence are not in
+this repository (or any branch of it) and were not reachable from this session. The capture and the re-created
+labels agree with each other (tabs Inbox, Job, Calendar, Owner decision; "You're handling", "Hand back to AFO";
+"Sent to customer"; the quote lines; the Activity strings), but whether they match the final Workspace V1 must be
+confirmed by the founder against Workspace V1 itself.

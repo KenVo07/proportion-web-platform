@@ -59,8 +59,16 @@ for (const vp of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
     await axe(page, `story step ${n} in view`, { include: [["#" + id]] });
   }
 
-  // Keyboard pass from the top.
+  // Keyboard pass from the top. The first stop is the skip link: visible when focused, and it lands on <main>.
   await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(200);
+  await page.evaluate(() => document.activeElement?.blur());
+  await page.keyboard.press("Tab");
+  const skip = await page.evaluate(() => {
+    const el = document.activeElement; const r = el.getBoundingClientRect();
+    return { isSkip: el.classList.contains("skip-link"), href: el.getAttribute("href"), text: el.textContent.trim(), onScreen: r.width > 0 && r.top >= 0 && r.bottom <= innerHeight && r.left >= 0, target: !!document.querySelector(el.getAttribute("href") || "#none") };
+  });
+  console.log(`  skip link: first Tab stop ${skip.isSkip ? `"${skip.text}" → ${skip.href}` : "is NOT the skip link"}, ${skip.onScreen ? "visible" : "not visible"} when focused`);
+  if (!skip.isSkip || !skip.onScreen || !skip.target) fail("skip link is not the first, visible Tab stop with a valid target");
   await page.evaluate(() => document.activeElement?.blur());
   const focusable = await page.$$eval("a[href], button", (els) => els.filter((el) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden").length);
   let outlined = 0; const seen = new Set();

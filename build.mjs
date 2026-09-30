@@ -25,6 +25,13 @@ if (contact.linkedin && !/^https:\/\/([a-z]{2,3}\.)?linkedin\.com\/in\/[^\s"'<>/
 if (contact.email && !/^[^\s@"'<>]+@[^\s@"'<>]+\.[a-z]{2,}$/i.test(contact.email)) fail("contact.email is not a valid address");
 if (contact.bookingUrl && !isHttps(contact.bookingUrl)) fail("contact.bookingUrl must be an https:// URL");
 if (!isHttps(config.showcase.url)) fail("showcase.url must be an https:// URL");
+// The prospect-facing Showcase only. The founder's interactive preview is local/dev only and must never be linked:
+// refuse local, private-network and preview/dev URLs outright.
+{
+  const u = new URL(config.showcase.url);
+  if (/^(localhost|127\.|0\.0\.0\.0|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|\[)|\.local$|\.localhost$/i.test(u.hostname)) fail("showcase.url must be the production Showcase, not a local or private-network address");
+  if (/(^|[/._=?&-])(preview|founder|dev|debug|staging|local)([/._=&-]|$)/i.test(u.pathname + u.search) || /(^|[.-])(preview|founder|dev|staging)[.-]/i.test(u.hostname)) fail("showcase.url must be the production Showcase, not a preview or dev route");
+}
 if (founder.photo && !existsSync(join(root, founder.photo))) fail(`founder.photo file not found: ${founder.photo}`);
 if (founder.photo && ![".jpg", ".jpeg", ".png", ".webp", ".avif"].includes(extname(founder.photo).toLowerCase())) fail("founder.photo must be .jpg, .png, .webp or .avif");
 
@@ -98,6 +105,7 @@ const slots = {
     : 'The <a href="#showcase">Live Showcase</a> is coming online.',
 
   // Live Showcase section. Pending: the same section, with a status instead of a link (no dead action).
+  SHOWCASE_HEADING: live ? "Try the real product." : "Try the real product, soon.",
   SHOWCASE_STATUS: live ? '<span class="status-pill is-live"><span class="live-dot" aria-hidden="true"></span>Open now</span>' : "",
   SHOWCASE_LEAD: live
     ? "The Live Showcase is the AFO product itself, running with fictional businesses. It opens in your browser."
@@ -108,7 +116,7 @@ const slots = {
   SHOWCASE_CHAT_TITLE: phoneLive ? "Call or message AFO like a customer." : "Message AFO like a customer.",
   SHOWCASE_CHAT_TEXT: phoneLive
     ? "Chat, send an enquiry, book online, or get a call code and ring the demo line from your own phone."
-    : "Chat, send an enquiry or book online. Describe a real job, or pick a suggested scenario.",
+    : "Chat, send an enquiry or book online. Describe a job you’d actually get.",
 
   CONTACT_LIST: hasContact ? `<ul class="contact-list">${contactList}\n        </ul>` : "",
   CONTACT_NOTE: "",

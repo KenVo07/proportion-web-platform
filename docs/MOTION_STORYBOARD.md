@@ -8,7 +8,7 @@ actually does.
 The story uses the **website chat** path, which the Showcase qualifies end to end: chat, facts, offered times, a
 booking confirmed by the demo calendar, a photo, quote review, delivery in the chat, and takeover. The phone
 channel appears in the Inbox as a second conversation. The page never shows a phone call ending in a booking,
-because the live demo line is still being hardened (open defects LPH-13 and LPH-14).
+because the demo line's booking behaviour is still being qualified.
 
 Three details follow the Showcase exactly, as corrected by the independent truth audit in `QA_REPORT.md`:
 
@@ -141,8 +141,9 @@ customer's view to the business view, the Showcase's two-sided layout.
 **Frame 6, "You approve it. The customer gets exactly that" (about 1 s).** Approve & send depresses. The status
 becomes "Sent to customer" and the sheet shows "Approved and delivered in the customer's chat — the exact quote you
 saw." The customer column receives **Quote from the business** with the same lines. Activity adds "Approved quote
-delivered in the customer's chat". On phones the Showcase toast appears: "Approved — the quote is in the
-customer's chat."
+delivered in the customer's chat". (The re-created story does not show the Showcase's toast, "Approved — the quote
+is in the customer's chat.": the sheet's own result line says the same thing, and on phones the toast covered the
+Inbox row. The toast is visible in the real capture of frame 8.)
 
 **Frame 7, "Step into the chat whenever you like" (about 1.4 s).**
 
@@ -152,6 +153,17 @@ customer's chat."
 4. It then shows "A member of the team has joined the conversation." and "Hi Jordan, it's the owner — Sam will
    bring the parts."
 5. Activity adds "You took over the conversation. AFO stays silent until you hand it back."
+
+**Frame 8, "This is the real product" (about 0.8 s).** The re-created surfaces fade and a browser-framed capture of
+the real Showcase workspace rises in their place ("AFO Showcase workspace · fictional demo business"), at the same
+point of the enquiry: You're handling, Hand back to AFO, the Owner decision tab with the quote sent to the customer,
+and every step in its Activity. The stage caption ("Re-created from the AFO Showcase") steps aside, because the
+capture carries its own label.
+
+- The capture is shown as the genuine image, only offset and scaled: on desktop it is cropped to the business view
+  and its Activity (about 0.8× at 1440, so its text stays readable); on phones to the business column.
+- It is not fetched on a first visit. The story starts loading it on reaching frame 5, three frames before it is
+  shown; the final section reuses the cached file.
 
 ## Chapter dock (glass, interactive)
 

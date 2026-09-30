@@ -1,8 +1,8 @@
 // Founder-review screenshot set in docs/screenshots/:
-//   fold-<width>.png            first screen after the hero intro, at 320 / 390 / 768 / 1024 / 1440 / 1920
-//   story-<width>-<frame>.jpg   each of the 9 story frames at 1440 and 390 (reduced motion = final frame)
-//   page-<width>-NN.jpg         the whole page as consecutive viewport screens at 1440 and 390
-//   motion-*.jpg                filmstrips of the hero intro, the fact flights and the booking chain
+//   fold-<width>.png            first screen after the hero intro, at 320 / 390 / 768 / 1024 / 1280 / 1440 / 1600 / 1920
+//   story-<width>-<frame>.jpg   each of the 9 story frames at 1280, 1440, 1600, 1920 and 390 (reduced motion = final frame)
+//   page-<width>-NN.jpg         the whole page as consecutive viewport screens at the same widths
+//   motion-*.jpg                filmstrips of every chapter transition as it plays (desktop), and the owner chapter on a phone
 // SHOTS_DIR overrides the output folder (used for the live-Showcase variant).
 import { chromium } from "playwright";
 import { mkdirSync, rmSync, readdirSync } from "node:fs";
@@ -35,7 +35,7 @@ for (const [w, h] of [[320, 568], [390, 844], [768, 1024], [1024, 768], [1280, 8
   console.log(`fold ${w}x${h}: horizontal overflow ${overflow}px`);
   await page.close();
 }
-for (const [w, h] of [[1440, 900], [1920, 1080], [1280, 800], [390, 844]]) {
+for (const [w, h] of [[1440, 900], [1920, 1080], [1600, 900], [1280, 800], [390, 844]]) {
   const page = await browser.newPage({ viewport: { width: w, height: h }, reducedMotion: "reduce", ...mobile(w) });
   await page.goto(URL_, { waitUntil: "load" });
   await page.waitForTimeout(500);
@@ -53,13 +53,18 @@ for (const [w, h] of [[1440, 900], [1920, 1080], [1280, 800], [390, 844]]) {
 }
 
 // Filmstrips: capture frames of the stage while motion plays, then lay them out on one sheet.
-async function filmstrip(name, frames, everyMs, setup) {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+async function filmstrip(name, frames, everyMs, setup, viewport = { width: 1440, height: 900 }) {
+  const page = await browser.newPage({ viewport, ...mobile(viewport.width) });
   await page.goto(URL_, { waitUntil: "domcontentloaded" });
   if (setup) await setup(page);
+  // Clip the viewport to the pinned stage. (An element screenshot would first scroll the sticky stage "into
+  // view", which scrolls the page back and changes the frame being recorded.)
+  const box = await page.locator(".stage-wrap").boundingBox();
+  const top = Math.max(0, box.y - 28);
+  const clip = { x: Math.max(0, box.x - 16), y: top, width: Math.min(viewport.width, box.width + 32), height: Math.min(viewport.height - top, box.height + 44) };
   const shots = [];
   for (let i = 0; i < frames; i++) {
-    shots.push((await page.locator(".stage-wrap").screenshot({ type: "jpeg", quality: 82 })).toString("base64"));
+    shots.push((await page.screenshot({ type: "jpeg", quality: 82, clip })).toString("base64"));
     await page.waitForTimeout(everyMs);
   }
   const sheet = await browser.newPage({ viewport: { width: 1600, height: 400 } });
@@ -68,11 +73,19 @@ async function filmstrip(name, frames, everyMs, setup) {
   await sheet.screenshot({ path: join(out, `motion-${name}.jpg`), type: "jpeg", quality: 78, fullPage: true });
   await sheet.close(); await page.close();
 }
+// Reach frame `to`, letting each earlier frame's choreography finish first (the choreography of the frame being
+// entered is what the filmstrip records).
+const playTo = (to, settle = 1200) => async (p) => { await p.waitForTimeout(3500); for (let n = 1; n < to; n++) { await reach(p, n); await p.waitForTimeout(n === to - 1 ? 3600 : settle); } await reach(p, to); };
 await filmstrip("1-hero-intro", 12, 260);
-await filmstrip("2-facts-to-case", 12, 180, async (p) => { await p.waitForTimeout(3500); await reach(p, 1); await p.waitForTimeout(3200); await reach(p, 2); });
-await filmstrip("3-booking-chain", 12, 330, async (p) => { await p.waitForTimeout(3500); for (const n of [1, 2, 3]) { await reach(p, n); await p.waitForTimeout(3000); } await reach(p, 4); });
-await filmstrip("4-owner-approve", 8, 300, async (p) => { await p.waitForTimeout(3500); for (const n of [1, 2, 3, 4, 5]) { await reach(p, n); await p.waitForTimeout(n === 5 ? 3000 : 1200); } await reach(p, 6); });
-await filmstrip("5-real-workspace", 8, 200, async (p) => { await p.waitForTimeout(3500); for (const n of [1, 2, 3, 4, 5, 6, 7]) { await reach(p, n); await p.waitForTimeout(n === 7 ? 2500 : 900); } await reach(p, 8); });
+await filmstrip("2-enquiry", 12, 200, playTo(1));
+await filmstrip("3-facts-to-case", 12, 180, playTo(2));
+await filmstrip("4-booking-chain", 12, 330, playTo(4));
+await filmstrip("5-customer-to-owner", 12, 180, playTo(5));
+await filmstrip("6-owner-approve", 8, 180, playTo(6));
+await filmstrip("7-takeover", 8, 200, playTo(7));
+await filmstrip("8-real-workspace", 8, 160, playTo(8));
+await filmstrip("9-phone-booking-to-owner", 12, 220, playTo(5), { width: 390, height: 844 });
+await filmstrip("10-phone-takeover-to-real", 12, 220, playTo(8), { width: 390, height: 844 });
 await browser.close();
 server.close();
 console.log(`screenshots written to ${out}`);

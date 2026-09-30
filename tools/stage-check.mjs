@@ -17,6 +17,8 @@ for (const [w, h] of [[1440, 900], [1024, 768], [390, 844], [320, 568]]) {
         if (parseFloat(getComputedStyle(card).opacity) < 0.5) continue;
         const cr = card.getBoundingClientRect();
         for (const el of card.querySelectorAll("*")) {
+          // The real workspace capture is deliberately larger than its frame: the frame crops it (overflow hidden).
+          if (el.matches(".real-shot")) continue;
           const r = el.getBoundingClientRect();
           if (!r.width || parseFloat(getComputedStyle(el).opacity) === 0) continue;
           if (r.right > cr.right + 2 || r.left < cr.left - 2) out.push(`${card.className.split(" ")[1]} > ${el.tagName.toLowerCase()}.${String(el.className).split(" ")[0]} (+${Math.round(r.right - cr.right)}px)`);

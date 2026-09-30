@@ -14,8 +14,9 @@ for (const cfg of [
   const page = await ctx.newPage();
   const cdp = await ctx.newCDPSession(page);
   if (cfg.cpu > 1) await cdp.send("Emulation.setCPUThrottlingRate", { rate: cfg.cpu });
-  let bytes = 0; const byType = {};
+  let bytes = 0; const byType = {}; const urls = [];
   page.on("response", async (r) => {
+    urls.push(r.url());
     try { const b = (await r.body()).length; bytes += b; const t = (r.headers()["content-type"] || "other").split(";")[0]; byType[t] = (byType[t] || 0) + b; } catch {}
   });
   await page.addInitScript(() => {
@@ -27,6 +28,10 @@ for (const cfg of [
   await page.goto("http://127.0.0.1:4404/", { waitUntil: "load" });
   await page.waitForTimeout(3800); // let the hero intro finish
   const initialBytes = bytes;
+  const initialByType = Object.fromEntries(Object.entries(byType).map(([t, b]) => [t, +(b / 1024).toFixed(1)]));
+  // The real workspace capture is lazy: it must not be fetched on the first screen, only once the story reaches
+  // the owner chapter (or the final section comes near).
+  const captureOnFirstVisit = urls.some((u) => /showcase-workspace\.webp/.test(u));
   // Scroll the whole page at a steady pace inside the page, timing every animation frame.
   const frames = await page.evaluate(async (px) => {
     const deltas = [];
@@ -51,6 +56,9 @@ for (const cfg of [
   results.push({
     name: cfg.name,
     initialKB: +(initialBytes / 1024).toFixed(1),
+    initialByTypeKB: initialByType,
+    captureOnFirstVisit,
+    captureLoadedByEndOfScroll: urls.some((u) => /showcase-workspace\.webp/.test(u)),
     totalKB: +(bytes / 1024).toFixed(1),
     lcpMs: Math.round(perf.lcp),
     cls: +perf.cls.toFixed(4),
