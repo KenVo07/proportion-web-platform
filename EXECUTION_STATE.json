@@ -91,7 +91,19 @@
       "checkpoint": 0,
       "candidate": 0
     },
-    "controlled_comparison": "in progress; see docs/QA_REPORT.md section 0.1",
+    "controlled_comparison": {
+      "method": "same scroll as perf.mjs with instant scrolling (fixed frame count), builds interleaved, 3 runs each",
+      "desktop_slow_frames_pct": {
+        "old_baseline": 1.2,
+        "checkpoint": 5.24,
+        "candidate": 1.38
+      },
+      "phone_4x_cpu_slow_frames_pct": {
+        "old_baseline": 2.25,
+        "checkpoint": 2.26,
+        "candidate": 2.19
+      }
+    },
     "cause": "compositor (software renderer) redoing backdrop blurs every scrolled frame: the stage clip's 64 px top pad reached under the fixed glass nav, and the desktop decision sheet blurred a paper column",
     "fix": "stage clip top pad 24 px; desktop decision sheet solid (glass sheen, edge and shadow kept)",
     "resolved": true

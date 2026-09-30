@@ -19,7 +19,7 @@ placeholder LinkedIn and email to exercise the contact-configured ladder (never 
 | `npm run check` | Pass, pending and live (also with a contact route configured, both states) |
 | `npm run a11y` | Pass, pending and live: 0 axe violations (WCAG 2.1 A/AA + best practice) at 390 and 1440, on the page and on story steps 1, 3, 5, 7 and 8 as seen |
 | `npm run stage` | Pass: no product-UI element escapes its card in any of the 9 frames at 1440, 1024, 390 and 320 (pending and live) |
-| `npm run perf` | Desktop slow frames 0.4 / 0.1 / 0.3 % (baseline 0.2 / 0.3 / 0.3 %), phone 0.6 / 0.6 / 0.2 % (baseline 0.3 / 0.4 / 0.5 %), p99 16.8 ms everywhere, CLS 0. Controlled comparison in §0.2 |
+| `npm run perf` | Desktop slow frames 0.4 / 0.1 / 0.3 % (baseline 0.2 / 0.3 / 0.3 %), phone 0.6 / 0.6 / 0.2 % (baseline 0.3 / 0.4 / 0.5 %), p99 16.8 ms everywhere, CLS 0. Controlled comparison in §0.1 |
 | Layout shift | 0 on desktop and phone, through the whole story, in every run |
 | First visit | ≈ 112 KB as served with gzip (baseline ≈ 109 KB). The real capture (114 KB) is never fetched on a first visit |
 | Showcase CTA | Pending: no Showcase host anywhere in the page, no "Try AFO live", a truthful "coming online" status. Live: five links (nav, hero, section, final panel, footer), each exactly `https://demo.proportion.systems/`, new tab, `rel="noopener"` |
@@ -81,7 +81,19 @@ thresholds; "slow" is still > 20 ms). Visual result: frames 3–6 look the same 
 different number of frames (desktop runs here ranged from 24 k to 60 k frames). Percentages from it are
 comparable; raw counts are not. The controlled comparison below removes that noise.
 
-**Controlled comparison:** in progress at the time of this commit; results follow in the next docs commit.
+**Controlled comparison.** The same page scroll (desktop 1440 at 9 px per frame; phone 390 at 6 px per frame under
+a 4× CPU throttle) with instant scrolling, so every run covers the same frames, and the three builds interleaved
+run by run so machine drift hits them equally (3 runs each). Instant 9 px jumps are harsher than smooth scrolling,
+so every build scores higher than in `perf.mjs`; the comparison between builds is what matters:
+
+| Build | Desktop slow frames (runs) | Phone slow frames (runs) |
+|---|---|---|
+| Baseline `bf6bd69` | 40 / 3,330 = **1.20 %** (1.89, 0.99, 0.72) | 96 / 4,272 = **2.25 %** (2.32, 1.83, 2.60) |
+| Checkpoint `1d57a86` | 190 / 3,624 = **5.24 %** (6.79, 3.89, 5.05) | 108 / 4,788 = **2.26 %** (2.32, 2.26, 2.19) |
+| Candidate `a51c28d` | 50 / 3,633 = **1.38 %** (1.16, 1.73, 1.24) | 105 / 4,803 = **2.19 %** (1.87, 2.00, 2.69) |
+
+The checkpoint's desktop regression (about 4.4× the baseline) is gone: the candidate sits inside the baseline's own
+run-to-run spread. Phones never regressed.
 
 The long tasks are the page's start-up (the phone's are under a 4× CPU throttle, as in the baseline).
 
