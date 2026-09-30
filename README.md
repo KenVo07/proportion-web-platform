@@ -36,9 +36,9 @@ built page to change these.
 
 | Key | Values | Effect |
 |---|---|---|
-| `showcase.state` | `"pending"` (default) or `"live"` | `live` makes **Try AFO live** the primary call to action in the nav, hero, Showcase section and final panel, linking to `showcase.url`. `pending` says the Showcase opens soon and shows no link to it. |
-| `showcase.url` | URL | `https://demo.proportion.systems/`. Used only when `state` is `live`. |
-| `showcase.phoneLine` | `"pending"` or `"live"` | Adds the "ring the demo line" line to the Showcase section. **Keep it `pending` until the demo line's open booking defects (LPH-13, LPH-14) are closed.** The build prints a warning when it is live. |
+| `showcase.state` | `"pending"` (default) or `"live"` | `live` makes **Try AFO live** the primary call to action in the nav, hero, Showcase section and final panel, linking to `showcase.url` in a new tab. `pending` shows a truthful "coming online" status instead, with no link to the Showcase anywhere and no "Try AFO live" wording (`npm run check` fails otherwise). |
+| `showcase.url` | URL | `https://demo.proportion.systems/`, the production Showcase. Used only when `state` is `live`. The build refuses local, private-network and preview URLs: the founder's local interactive preview must never be linked from this page. |
+| `showcase.phoneLine` | `"pending"` or `"live"` | Adds "ring the demo line from your own phone" to the Showcase section (only when `state` is also `live`). **Keep it `pending` until the founder has observed a real call on the demo line and approved the Showcase for prospects.** The build prints a warning when it is live. |
 | `founder.name`, `founder.shortName`, `founder.role`, `founder.location` | text | Founder section, hero byline, footer, and the **Talk to Khoa** button. |
 | `founder.photo` | path, e.g. `content/founder.jpg` | Real photo only: 4:5 portrait, at least 840 px wide, JPG, WebP or AVIF, under about 150 KB. Copied to `dist/assets/founder.<ext>`. Empty means the section renders without a photo. There is never a placeholder or avatar. |
 | `founder.photoAlt` | text | Alt text for the photo. |
@@ -48,12 +48,15 @@ built page to change these.
 
 How the calls to action follow from that (one primary action per screen):
 
-| Showcase | Contact configured | Primary | Secondary |
-|---|---|---|---|
-| live | yes | Try AFO live | Talk to Khoa (jumps to the founder section) |
-| live | no | Try AFO live | See how it works |
-| pending | yes | Talk to Khoa | See how it works |
-| pending | no | See how it works | none |
+| Showcase | Contact configured | Nav | Hero | Final panel |
+|---|---|---|---|---|
+| live | yes | Try AFO live | Try AFO live · See how it works | Try AFO live · Talk to Khoa |
+| live | no | Try AFO live | Try AFO live · See how it works | Try AFO live |
+| pending | yes | Talk to Khoa | See how it works · Talk to Khoa | Talk to Khoa · See how it works |
+| pending | no | See how it works | See how it works | See how it works |
+
+The Live Showcase section is the same in both states except for its action: **live** shows one **Try AFO live**
+button (with the destination host); **pending** shows a "Live demo coming online" status and no link.
 
 Preview another state without editing the file: `SHOWCASE_STATE=live npm run build`, `PHONE_LINE=live …`, or
 `SITE_CONFIG=path/to/other.json npm run build`.
@@ -64,7 +67,8 @@ photo if you have one. Switch `showcase.state` to `live` once the Showcase is pr
 ## Verify it
 
 ```bash
-npm run check        # template slots, banned hype, rejected/unsupported claim wording, anchors, heading order, hosts, size budget
+npm run check        # template slots, banned hype, rejected/unsupported claim wording, anchors, heading order, hosts,
+                     # Showcase pending/live link rules, public-safety (internal IDs, local paths, dev/preview routes), size budget
 npm run a11y         # axe-core (WCAG 2.1 A/AA) at 390 and 1440 on the page and on story frames as seen, keyboard focus,
                      # reduced motion, reduced transparency, increased contrast, JavaScript off
 npm run stage        # every story frame at 4 widths: no product-UI text or chip escapes its card
@@ -112,10 +116,10 @@ site.config.json          the only file to edit for CTAs, founder and contact de
 src/index.html            the page, with {{SLOT}} markers filled by build.mjs
 src/styles/00-08*.css     tokens, base, glass, nav, story layout, product UI, stage frames, sections, motion
 src/js/main.js            entry: dates, story, scroll, reveals (progressive enhancement only); bundled to dist/js/site.js
-src/js/story.js           the stage's eight frames: content per frame, choreography, fact flights (Web Animations API)
+src/js/story.js           the stage's nine frames: content per frame, choreography, fact flights (Web Animations API)
 src/js/scroll.js          one requestAnimationFrame reader: backdrop, active frame, dock progress, nav tone, drawings
 src/fonts/                Inter (variable, optical sizes) and a 5 KB JetBrains Mono subset, both SIL OFL (LICENSE.md)
-src/assets/               real Showcase workspace screenshot (final panel backdrop), the Showcase's sample photo
+src/assets/               real Showcase workspace capture (story frame 9 and final panel backdrop, lazy only), the Showcase's sample photo
 src/og.html               source of the 1200x630 link preview
 tools/                    serve, check, a11y, stage-check, perf, screenshots, extract-copy, og
 docs/                     VISUAL_REFERENCE_SYNTHESIS, MOTION_STORYBOARD, DESIGN_RATIONALE, CLAIMS_NOT_USED,

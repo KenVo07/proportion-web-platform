@@ -5,10 +5,15 @@
    Desktop widths stay constant per surface (a width change would reflow text mid-motion); emphasis comes from
    position, scale and layering. The owner frames give the business workspace about two thirds of the stage. */
 
+/* The clip is padded so card shadows are not cut off. The top pad is kept small: surfaces cast their shadows
+   downwards, and a taller pad would reach up under the fixed glass nav. Anything that changes beneath the nav's
+   backdrop blur makes the compositor redo that blur every frame, which on software-composited machines was the
+   main cause of slow frames in the booking frames. */
 .stage-clip {
   --pad: 64px;
-  margin: calc(-1 * var(--pad));
-  padding: var(--pad);
+  --pad-top: 24px;
+  margin: calc(-1 * var(--pad-top)) calc(-1 * var(--pad)) calc(-1 * var(--pad));
+  padding: var(--pad-top) var(--pad) var(--pad);
   overflow: clip; /* hard stop at the padded edge where the soft fade below is not supported */
   pointer-events: none;
 }

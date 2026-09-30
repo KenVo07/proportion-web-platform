@@ -352,6 +352,13 @@
   --light: 320deg;
   display: grid; gap: 0.55em; padding: 1em 1.1em 1.05em; border-radius: 18px;
 }
+/* Desktop: the sheet covers exactly the business view's paper column, so a backdrop blur would show nothing
+   through it, yet it would be recomputed every frame while the page scrolls (measured: most of the remaining
+   slow frames in the owner chapter). It keeps the glass sheen, edge and shadow, on a solid surface. Phones keep
+   the blur: there the sheet rises over the Inbox rows. */
+@media (min-width: 960px) and (prefers-contrast: no-preference) {
+  .c-sheet { --g-bg: rgb(255 255 255); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
 .sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 0.6em; }
 .sheet-head .swap { justify-items: end; }
 .sheet-meta { font-size: 0.84em; color: var(--ink-3); min-width: 0; }

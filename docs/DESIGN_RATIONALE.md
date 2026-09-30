@@ -51,7 +51,8 @@ Glass is used on exactly five surfaces, all of them controls that float over liv
 1. the floating nav capsule, which switches tint with the section beneath it
 2. the handling capsule, "AI handling · Take over", which docks into the business view in the owner chapter
 3. the story's chapter dock, which is real navigation
-4. the owner decision sheet over the Inbox
+4. the owner decision sheet over the Inbox (on desktop it sits exactly over the business view's paper column,
+   where a blur shows nothing, so it keeps the sheen, edge and shadow on a solid surface; see QA_REPORT §3)
 5. the final call-to-action panel over the real Showcase workspace
 
 The recipe is Linear's:

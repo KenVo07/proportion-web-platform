@@ -70,10 +70,33 @@ const showcaseHost = new URL(config.showcase.url).host;
 const liveState = /<html[^>]*\sdata-showcase="live"/.test(html);
 const showcaseLinks = [...html.matchAll(/<a\b[^>]*href="https?:\/\/([^"/]+)[^"]*"[^>]*>/g)].filter((m) => m[1] === showcaseHost);
 if (!liveState && html.includes(showcaseHost)) problems.push(`showcase is pending but the page mentions ${showcaseHost} (no dead or premature demo link)`);
+// Pending: no availability is implied anywhere, not even without a link.
+if (!liveState && /Try AFO live|Open now/.test(text)) problems.push("showcase is pending but the page offers it as available (Try AFO live / Open now)");
 if (liveState && showcaseLinks.length === 0) problems.push("showcase is live but there is no link to it");
+// Live: every Showcase link is exactly the configured production URL (no deep links, no preview routes) and
+// opens in a new tab safely; the one strong action is there.
+for (const m of showcaseLinks) {
+  const href = m[0].match(/href="([^"]+)"/)[1].replace(/&amp;/g, "&");
+  if (href !== config.showcase.url) problems.push(`showcase link is not the configured production URL: ${href}`);
+  if (!/target="_blank"/.test(m[0]) || !/rel="[^"]*noopener/.test(m[0])) problems.push(`showcase link without target=_blank rel=noopener: ${m[0].slice(0, 90)}`);
+}
+if (liveState && !/<a\b[^>]*href="[^"]*"[^>]*>Try AFO live</.test(html)) problems.push("showcase is live but there is no Try AFO live action");
 for (const m of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) if (!/rel="[^"]*noopener/.test(m[0])) problems.push(`new-tab link without rel=noopener: ${m[0].slice(0, 80)}`);
-// Internal defect IDs and engineering vocabulary never reach the public page.
-for (const re of [/\bLPH-\d+/, /\bPILOT_BLOCKER|DEMO_BLOCKER\b/, /\bCP\d\b/]) if (re.test(html)) problems.push(`internal identifier in public page: ${re}`);
+
+// Public-safety: nothing internal reaches any shipped text file (page, script, styles).
+// Internal defect IDs, engineering state labels, local paths, development hosts and the founder's local
+// interactive preview never ship; neither do credentials or debug/engineering language in the visible text.
+const shipped = { "index.html": html, "js/site.js": readdirSync(join(dist, "js")).map((f) => readFileSync(join(dist, "js", f), "utf8")).join("\n"), "styles.css": readFileSync(join(dist, "styles.css"), "utf8") };
+const internal = [
+  /\bLPH-\d+/, /\b(?:PILOT|DEMO)_BLOCKER\b/, /\bCP\d{1,2}\b/, /\bEXECUTION_STATE\b/, /\bCLOUD_HANDOFF\b/,
+  /\/home\/[a-z]/i, /\/Users\/[A-Za-z]/, /~\/Projects/, /\b[A-Z]:\\/, /file:\/\//,
+  /\b(?:localhost|127\.0\.0\.1|0\.0\.0\.0)\b/, /https?:\/\/[^"'\s/]*\.local\b/, /https?:\/\/(?:10|192\.168|172\.(?:1[6-9]|2\d|3[01]))\.\d/,
+  /founder[\s_-]*(?:interactive[\s_-]*)?preview/i, /interactive[\s_-]*preview/i,
+  /\bsk-[A-Za-z0-9_-]{12,}/, /\bapi[_-]?key\b/i, /\bBearer\s+[A-Za-z0-9._-]{8,}/,
+];
+for (const [file, body] of Object.entries(shipped)) for (const re of internal) if (re.test(body)) problems.push(`internal or local reference in ${file}: ${re}`);
+for (const m of html.matchAll(/href="([^"#][^"]*)"/g)) if (/(?:^|\/)(?:preview|dev|debug|staging)(?:[/?.#]|$)/i.test(m[1])) problems.push(`link to a preview/dev route: ${m[1]}`);
+for (const re of [/\bdebug\b/i, /\bTODO\b/, /\bFIXME\b/, /\bstaging\b/i, /\bpassword\b/i]) if (re.test(text)) problems.push(`engineering or credential language in visible text: ${re}`);
 // The real workspace capture is large and must never load on a first visit: the stage copy is JS-loaded
 // (data-src), the final-section copy is native lazy.
 for (const m of html.matchAll(/<img\b[^>]*showcase-workspace\.webp[^>]*>/g)) {
