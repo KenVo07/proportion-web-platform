@@ -1,17 +1,13 @@
-# AFO Landing V2 — cloud continuation
-- Mission: finish the public Landing V2 nine-frame product story and its measured visual/performance qualification.
-- Branch: `v2/visual-convergence` (same pre-checkpoint commit as `main`; dirty files carried across without change).
-- Pre-checkpoint HEAD: `bf6bd695e4174ca34dba424c6460567c5453523e`
-- Pre-checkpoint tree: `b59b9c749d7fa1032eefeee30651d3d0636a69ef`
-- Recovery: repository was in desktop Trash, with metadata naming `/home/khoa/Projects/afo-public-website-v1`; restored to that path on 2026-09-30.
-- Remote: none at recovery; `origin` now points to `https://github.com/KenVo07/proportion-web-platform.git` for this feature-branch checkpoint.
-- Dirty at recovery: 14 tracked files, no staged or untracked files; `dist/` and `node_modules/` are ignored and excluded.
-- Current changes: `build.mjs`; `src/index.html`, `src/js/story.js`, `src/assets/showcase-workspace.webp`; six `src/styles/*.css` files; `tools/{a11y,check,screenshots,stage-check}.mjs`.
-- Completed: founder pass built and visually corrected the nine-frame desktop/mobile story; the real Workspace capture is lazy-loaded in the owner chapter.
-- Visual evidence: responsive checks at 1280/1440/1600/1920 and phone; actual scroll-through motion inspected; accessibility passed; layout shift was 0.
-- Stop: interrupted while investigating desktop slow frames rising from about 0.5% to 3.4%; no cause or fix is recorded.
-- Durable report: `docs/QA_REPORT.md` is the older 2026-09-29 eight-frame baseline with 0.5% desktop slow frames; no `EXECUTION_STATE.json` exists.
-- Product sources: Client Workspace V1 is final and approved as canonical Workspace visual/product source; Showcase V2.1 and Founder Interactive Preview Closure are complete.
-- Public boundary: founder preview is local-only and MUST NOT become a public CTA; no deployment is authorized by this checkpoint.
-- Remaining, in order: isolate the slow-frame regression on the current bytes; record the finding and measured correction; compare final Workspace imagery/product wording with the canonical source; update durable Landing evidence; obtain separate release approval.
-- First cloud action: inspect the uncommitted story/stage changes and profile a full desktop scroll at 1440 before changing the design.
+# AFO Landing V2 — cloud continuation (state after the final convergence pass)
+- Mission: finish the public Landing V2 nine-frame product story as a release candidate for the sales phase.
+- Branch: `v2/visual-convergence` (not merged, not deployed). Machine-readable state: `EXECUTION_STATE.json`.
+- Interrupted founder-pass checkpoint: `1d57a868574ac0f002eb99be81068326c6e6b47b` (pre-checkpoint `bf6bd69`, same as `main` of the original site repository).
+- This pass: `0383afc` (slow-frame fix) → `a51c28d` (**release-candidate source**, tree `e5f24ec99c4cbce4c211d38b5367e27ce654de3b`) → docs/evidence commits on top (no source change; the final build is byte-identical to the candidate's, see `docs/QA_REPORT.md` §0).
+- Slow frames: cause found and fixed. The stage clip reached up under the fixed glass nav, and the desktop decision sheet blurred a paper column. Desktop now 0.1–0.2% (checkpoint 1.0%, old baseline 0.2–0.3%); CLS 0.
+- Product truth: every new string checked against the real Showcase capture and the audited copy; unsupported UI and wording removed (`docs/CLAIMS_NOT_USED.md`, "Final V2 pass").
+- Showcase: pending shows a truthful "coming online" status and no link; live shows one "Try AFO live" to exactly `showcase.url`. The build refuses local/preview/dev Showcase URLs; `npm run check` fails on any internal ID, local path, dev host or preview route in shipped files.
+- Verification on the candidate: check, a11y, stage and perf pass in both Showcase states (numbers in `docs/QA_REPORT.md` §0).
+- Not done here, and why: Client Workspace V1 source/evidence is not in this repository or reachable from the cloud session, so the page could only be reconciled against the capture it already carries. The founder must confirm that capture and the re-created labels against Workspace V1 (or supply a new capture).
+- Before any outreach: configure a contact route (LinkedIn or email) at release (`--config`), otherwise the only action is "See how it works".
+- Repository visibility: this GitHub repository is public although described as private; branch history includes internal engineering docs. Decide visibility before sharing links to it.
+- Deployment: not authorized. Release still needs the founder's approval; use the release repository described in the README.
