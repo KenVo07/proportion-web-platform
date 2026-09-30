@@ -1,0 +1,136 @@
+{
+  "project": "AFO public Landing V2 (proportion.systems)",
+  "branch": "v2/visual-convergence",
+  "updated": "2026-09-30",
+  "phase": "release-candidate frozen; awaiting founder confirmation and release approval",
+  "commits": {
+    "checkpoint_interrupted_founder_pass": "1d57a868574ac0f002eb99be81068326c6e6b47b",
+    "old_baseline": "bf6bd695e4174ca34dba424c6460567c5453523e",
+    "slow_frame_fix": "0383afc",
+    "release_candidate_source": "a51c28dc1e008f6bfa7cf96fd760513d875fd669",
+    "release_candidate_tree": "e5f24ec99c4cbce4c211d38b5367e27ce654de3b",
+    "later_commits": "documentation and screenshots only; the build output is unchanged"
+  },
+  "build_fingerprints": {
+    "method": "sha256 over the sorted per-file sha256 list of dist/, first 16 hex digits; build from git archive of the commit",
+    "deterministic": true,
+    "pending": "851320b37b5a8041",
+    "live": "c4baf65c1ea02626"
+  },
+  "story": {
+    "frames": 9,
+    "order": [
+      "hero",
+      "enquiry",
+      "case",
+      "offer",
+      "booked",
+      "quote",
+      "approve",
+      "takeover",
+      "real showcase capture"
+    ]
+  },
+  "verification": {
+    "check": {
+      "pending": "pass",
+      "live": "pass",
+      "contact_configured_pending": "pass",
+      "contact_configured_live": "pass"
+    },
+    "a11y": {
+      "pending": "pass (0 axe violations at 390 and 1440)",
+      "live": "pass (0 axe violations at 390 and 1440)"
+    },
+    "stage": {
+      "pending": "pass (9 frames at 1440, 1024, 390, 320)",
+      "live": "pass"
+    },
+    "perf": "measured; no material regression (docs/QA_REPORT.md section 0.1)",
+    "public_safety_negative_tests": "13 of 13 injected leaks fail the check; both clean states pass"
+  },
+  "performance": {
+    "harness": "npm run perf (tools/perf.mjs), 3 runs each, same machine and conditions",
+    "desktop_slow_frames_pct": {
+      "old_baseline": [
+        0.2,
+        0.3,
+        0.3
+      ],
+      "checkpoint": [
+        1.0
+      ],
+      "candidate": [
+        0.4,
+        0.1,
+        0.3
+      ]
+    },
+    "desktop_p99_ms": {
+      "old_baseline": 16.8,
+      "checkpoint": 33.2,
+      "candidate": 16.8
+    },
+    "phone_4x_cpu_slow_frames_pct": {
+      "old_baseline": [
+        0.3,
+        0.4,
+        0.5
+      ],
+      "checkpoint": [
+        0.4
+      ],
+      "candidate": [
+        0.6,
+        0.6,
+        0.2
+      ]
+    },
+    "cls": {
+      "old_baseline": 0,
+      "checkpoint": 0,
+      "candidate": 0
+    },
+    "controlled_comparison": "in progress; see docs/QA_REPORT.md section 0.1",
+    "cause": "compositor (software renderer) redoing backdrop blurs every scrolled frame: the stage clip's 64 px top pad reached under the fixed glass nav, and the desktop decision sheet blurred a paper column",
+    "fix": "stage clip top pad 24 px; desktop decision sheet solid (glass sheen, edge and shadow kept)",
+    "resolved": true
+  },
+  "first_visit": {
+    "gzip_estimate_kb": 112.2,
+    "old_baseline_gzip_estimate_kb": 109,
+    "requests": 6,
+    "workspace_capture_on_first_visit": false,
+    "workspace_capture_first_fetched_at_frame": 5
+  },
+  "workspace_capture": {
+    "file": "src/assets/showcase-workspace.webp",
+    "size": "1440x900",
+    "bytes": 113678,
+    "sha256": "635dfd0a6d9a90d30fca66c26519e451a824a48b3aa2d5c51f9cfdcecbb4990a",
+    "reconciled_against_client_workspace_v1": false,
+    "note": "Client Workspace V1 source/evidence not reachable from this session; re-created labels agree with the capture"
+  },
+  "showcase": {
+    "committed_state": "pending",
+    "pending_links_to_showcase": 0,
+    "live_links_to_showcase": 5,
+    "live_link_target": "https://demo.proportion.systems/ (new tab, rel=noopener)",
+    "founder_preview_exposed_publicly": false,
+    "build_refuses_local_or_preview_showcase_url": true
+  },
+  "internal_ids_in_shipped_output": false,
+  "ready_for_founder_release_approval": false,
+  "blockers": [
+    "Founder confirms the frame-9 capture and the re-created labels against final Client Workspace V1 (or supplies a new capture); the Workspace V1 source was not available to this session."
+  ],
+  "notes": [
+    "The GitHub repository is public although described as private; its docs and history contain internal engineering material. Visibility is the owner's decision.",
+    "Frame timing measured with software compositing in a cloud container; no real-device, Safari or Firefox testing."
+  ],
+  "deployed": false,
+  "release_prerequisites": [
+    "Configure a contact route (LinkedIn or email) for the release (--config); without one the page's only action is 'See how it works'.",
+    "Founder release approval, then release through the release repository (not done; no deployment authorized)."
+  ]
+}
