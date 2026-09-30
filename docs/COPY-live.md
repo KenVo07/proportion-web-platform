@@ -31,7 +31,8 @@ Built in Melbourne by Minh Khoa Vo. Fictional businesses, real conversations. No
 
 ## Hero (screen-reader only)
 
-Beside this text is an illustration of the AFO product for Riverbend Plumbing, a fictional demo business. As you scroll, it follows one enquiry from the first message to the owner’s decision. Each step below describes what it shows.
+(opens in a new tab)
+Beside this text is an illustration of the AFO product for Riverbend Plumbing, a fictional demo business. As you scroll, it follows one enquiry from the first message to the owner’s decision, and ends on a capture of the real Showcase at the same point. Each step below describes what it shows.
 
 ## Story steps
 
@@ -83,6 +84,14 @@ OWNER
 Step into the chat whenever you like.
 
 Take over the chat and AFO goes silent. Reply as the business from the same thread, then hand it back.
+
+THE REAL WORKSPACE
+
+This is the real product.
+
+The views above are re-created from the AFO Showcase. This is a capture of the Showcase itself at the same point: quote approved, owner in the chat, every step in the Activity.
+
+About the Live Showcase
 
 ## Story dock
 
@@ -155,9 +164,18 @@ Whichever of these a customer uses, the enquiry becomes a Case in one Inbox, wit
 LIVE SHOWCASE
 OPEN NOW
 
-See it handle a job you’d actually get.
+Try the real product. Play the customer, then see the business side.
 
-Pick a fictional business and play the customer. Then open the business side and see what AFO recorded and did.
+The Live Showcase is the AFO product itself, running with fictional businesses. It opens in your browser.
+
+Try AFO live
+
+DEMO.PROPORTION.SYSTEMS · OPENS IN A NEW TAB
+
+01
+Choose a fictional business.
+
+Each has its own services, staff, prices and schedule.
 
 R
 Riverbend Plumbing
@@ -168,10 +186,19 @@ Broken double power point
 B
 Bayleaf Cleaning
 Standard clean this week
+02
+Message AFO like a customer.
+
+Chat, send an enquiry or book online. Describe a job you’d actually get.
+
+03
+See what the business sees.
+
+The Inbox, the Case, the calendar and the quote update as you go. Approve, reject or take over.
+
 Your own private demo session.
 Fictional businesses, staff, prices and schedules. Nobody will attend.
 AFO says it’s an AI assistant, as it would to your customers.
-Try AFO live
 
 ## Section #contact
 
@@ -185,7 +212,7 @@ Melbourne, Australia
 
 AFO is a Proportion product, and it’s early. It’s built carefully, with its behaviour tested against written business rules before it goes near a paying customer’s calls.
 
-The product views on this page are re-created from the Showcase, with its fictional businesses.
+The product views in the story are re-created from the Showcase, with its fictional businesses. The last one, and the image behind the final panel, are captures of the Showcase itself.
 
 ## Section #get-started
 
@@ -194,7 +221,6 @@ Try it on a job you’d actually get.
 Play the customer in the Showcase and watch the business side update.
 
 Try AFO live
-See how it works
 
 BEHIND THIS PANEL: THE REAL AFO SHOWCASE WORKSPACE, WITH A FICTIONAL BUSINESS.
 
@@ -215,7 +241,7 @@ Every string below is the AFO Showcase's own wording, shown with the fictional R
 
 ### Caption
 
-- Illustration · Riverbend Plumbing is a fictional demo businessIllustration · fictional demo business
+- Re-created from the AFO Showcase · fictional demo businessRe-created from the Showcase · fictional businessRe-created · fictional demo business
 
 ### chat
 
@@ -223,13 +249,16 @@ Every string below is the AFO Showcase's own wording, shown with the fictional R
 - AI assistant · live conversation
 - A team member is here
 - Website chat
+- Chat
+- Enquiry form
+- Book online
 - Hi, a pipe under my kitchen sink has burst. There’s water everywhere.
 - AI assistantSorry to hear that. Is water still escaping right now?
 - Yes, it’s still going.
 - AI assistantIf you can safely reach the water meter, turn the mains tap off. Keep away from any power points near the water.
 - Done, it’s off. I’m in Clayton, and the pipe’s right there under the sink.
-- AI assistantThanks. The earliest is Tuesday 6 October at 10:30 am with Sam. Shall I book that?
-- The earliest time works. I’m Jordan Lee, 0491 570 156, 12 Demo Street, Clayton.
+- AI assistantThanks. I can do Tuesday 6 October at 10:30 or 11:00 am with Sam, or 11:30 am or 12:00 pm with Riley. Which suits you?
+- 10:30 with Sam, please. I’m Jordan Lee, 0491 570 156, 12 Demo Street, Clayton.
 - AI assistantYou’re booked for Tuesday 6 October at 10:30 am. If it’s safe, could you send a photo of the damaged pipe?
 - Photo sent
 - AI assistantThanks for the photo — that’s with the team.
@@ -298,6 +327,13 @@ Every string below is the AFO Showcase's own wording, shown with the fictional R
 - New enquiry
 - Hot water fault
 - Web form
+- New customer · Clayton
+- What AFO did
+- 9:41 amCase opened from website chat
+- 9:42 amOffered 4 times (website)
+- 9:43 amCalendar confirmed the booking
+- 9:44 amQuote drafted: $345.00 AUD
+- 9:46 amApproved quote delivered in the customer’s chat
 - Activity · what happened, as it happened
 - CustomerEvidence received (1 item)
 - AFOQuote ready — waiting for your decision
@@ -334,12 +370,12 @@ Every string below is the AFO Showcase's own wording, shown with the fictional R
 - AFO is silent.
 - Hand back to AFO
 
+### real
+
+- AFO Showcase workspace · fictional demo business
+
 ### note
 
 - AFO
 - Safety first: commercial questions paused
 - AFOSafety first: commercial questions paused
-
-### toast
-
-- Approved — the quote is in the customer’s chat.

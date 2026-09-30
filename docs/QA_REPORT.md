@@ -176,8 +176,10 @@ intermediate surfaces and phone docking leakage:
 - takeover → real capture: the re-created surfaces fade as the framed capture rises; the "Re-created" caption steps
   aside because the capture carries its own label
 
-Reduced motion keeps every frame and only fades. The filmstrip tool previously scrolled the sticky stage "into
-view" before each capture, which could record the wrong frame; it now clips the viewport instead.
+Reduced motion keeps every frame and only fades. Two faults in the filmstrip tool were fixed on the way (evidence
+tooling only): it scrolled the sticky stage "into view" before each capture, and its scroll helper nudged a
+smoothly scrolling page so often that it barely moved (the enquiry strip never left the hero). It now clips the
+viewport and scrolls instantly.
 
 ### 0.6 Product-truth reconciliation
 
