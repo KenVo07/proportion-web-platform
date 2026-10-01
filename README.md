@@ -58,6 +58,10 @@ How the calls to action follow from that (one primary action per screen):
 The Live Showcase section is the same in both states except for its action: **live** shows one **Try AFO live**
 button (with the destination host); **pending** shows a "Live demo coming online" status and no link.
 
+The pre-D2 [public funnel integration](docs/PUBLIC_FUNNEL_GLUE_V1.md) derives one public-only
+URL contract for Landing, Showcase and the founder-created Stripe return paths. It keeps
+public payment closed and adds three static return surfaces without activating AFO.
+
 Preview another state without editing the file: `SHOWCASE_STATE=live npm run build`, `PHONE_LINE=live …`, or
 `SITE_CONFIG=path/to/other.json npm run build`.
 
