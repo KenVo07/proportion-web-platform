@@ -4,6 +4,9 @@ import { initDates } from "./dates.js";
 import { initStory } from "./story.js";
 import { initScroll } from "./scroll.js";
 import { initReveal } from "./reveal.js";
+import { initFunnel } from "./funnel.js";
+
+initFunnel("landing");
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");

@@ -9,11 +9,13 @@
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, rmSync, existsSync, readdirSync } from "node:fs";
 import { join, dirname, extname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
+import { canonicalFunnel } from "./tools/funnel-config.mjs";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const config = JSON.parse(readFileSync(process.env.SITE_CONFIG || join(root, "site.config.json"), "utf8"));
 if (process.env.SHOWCASE_STATE) config.showcase.state = process.env.SHOWCASE_STATE;
 if (process.env.PHONE_LINE) config.showcase.phoneLine = process.env.PHONE_LINE;
+const funnel = canonicalFunnel(config);
 
 // ---------- Validation ----------
 const fail = (msg) => { throw new Error(`site.config.json: ${msg}`); };
@@ -51,10 +53,10 @@ const arrow = '<span class="btn-arrow" aria-hidden="true">↗</span>';
 // the arrow shows it and screen readers are told.
 const newTab = '<span class="visually-hidden"> (opens in a new tab)</span>';
 const extAttrs = ' target="_blank" rel="noopener"';
-const btn = (kind, href, label, { external = false, extraClass = "" } = {}) =>
-  `<a class="btn btn-${kind}${extraClass ? " " + extraClass : ""}" href="${esc(href)}"${external ? extAttrs : ""}>${esc(label)}${external ? arrow + newTab : ""}</a>`;
+const btn = (kind, href, label, { external = false, extraClass = "", attribution = "" } = {}) =>
+  `<a class="btn btn-${kind}${extraClass ? " " + extraClass : ""}" href="${esc(href)}"${attribution ? ` data-funnel="${attribution}"` : ""}${external ? extAttrs : ""}>${esc(label)}${external ? arrow + newTab : ""}</a>`;
 
-const tryLive = (kind = "primary", extraClass = "") => btn(kind, config.showcase.url, "Try AFO live", { external: true, extraClass });
+const tryLive = (kind = "primary", extraClass = "") => btn(kind, funnel.showcaseUrl, "Try AFO live", { external: true, extraClass, attribution: "showcase" });
 const talkBtn = (kind) => btn(kind, "#contact", talk);
 const howBtn = (kind) => btn(kind, "#how-it-works", "See how it works");
 
@@ -119,7 +121,7 @@ const slots = {
     : "Chat, send an enquiry or book online. Describe a job you’d actually get.",
 
   CONTACT_LIST: hasContact ? `<ul class="contact-list">${contactList}\n        </ul>` : "",
-  CONTACT_NOTE: "",
+  CONTACT_NOTE: hasContact ? "" : '<p class="founder-text">Contact the person who shared AFO to arrange a conversation with Proportion.</p>',
 
   FINAL_HEADING: live ? "Try it on a job you’d actually get." : "Want AFO on your front office?",
   FINAL_LEAD: live
@@ -132,7 +134,7 @@ const slots = {
   FINAL_CTAS: finalCtas,
 
   FOOTER_LINKS: [
-    live ? `<a href="${esc(config.showcase.url)}"${extAttrs}>Live Showcase${newTab}</a>` : "",
+    live ? `<a href="${esc(funnel.showcaseUrl)}" data-funnel="showcase"${extAttrs}>Live Showcase${newTab}</a>` : "",
     hasContact ? `<a href="#contact">${esc(talk)}</a>` : "",
   ].filter(Boolean).join(""),
 };
@@ -149,6 +151,50 @@ const dist = join(root, "dist");
 rmSync(dist, { recursive: true, force: true });
 for (const d of ["", "js", "fonts", "assets"]) mkdirSync(join(dist, d), { recursive: true });
 writeFileSync(join(dist, "index.html"), html);
+
+// Informational returns from founder-created Checkout and portal sessions.
+// No provider lookup, payment entry, query interpolation or activation action.
+const returns = {
+  success: {
+    RETURN_TITLE: "Checkout complete", RETURN_EYEBROW: "Next · onboarding",
+    RETURN_HEADING: "Your checkout step is complete.",
+    RETURN_DESCRIPTION: "Continue with founder-assisted AFO onboarding after checkout.",
+    RETURN_LEAD: "If you arrived here after completing the Stripe checkout shared by Proportion, your payment or trial enrollment step is complete.",
+    RETURN_NEXT_HEADING: "Set up AFO with the founder.",
+    RETURN_NEXT: "Continue the conversation with Proportion about your business setup. AFO activation is a separate, founder-assisted step, after your enrollment and setup are confirmed.",
+    RETURN_NOTE: "This page does not confirm your billing status. Proportion confirms that separately with Stripe; visiting this page does not activate AFO.",
+  },
+  cancel: {
+    RETURN_TITLE: "Checkout not completed", RETURN_EYEBROW: "Back to Proportion",
+    RETURN_HEADING: "Checkout wasn’t completed.",
+    RETURN_DESCRIPTION: "Return to Proportion or ask about the next setup step.",
+    RETURN_LEAD: "You’ve returned from checkout before completing that step. This page does not confirm a purchase or trial enrollment.",
+    RETURN_NEXT_HEADING: "Continue when you’re ready.",
+    RETURN_NEXT: "Explore AFO on the site, or talk to Proportion about setup and any questions. The founder can help you continue with the checkout they shared.",
+    RETURN_NOTE: "If you’re unsure whether a payment went through, check your Stripe receipt or contact Proportion before trying again.",
+  },
+  portal: {
+    RETURN_TITLE: "Back from billing", RETURN_EYEBROW: "Billing · help",
+    RETURN_HEADING: "Back from billing.",
+    RETURN_DESCRIPTION: "Contact Proportion for billing or setup help.",
+    RETURN_LEAD: "You’re back on the Proportion site. Billing details and any changes you made are managed in Stripe.",
+    RETURN_NEXT_HEADING: "Need a hand?",
+    RETURN_NEXT: "Talk to Proportion for billing or setup help. The founder can arrange another secure billing portal link if you need one.",
+    RETURN_NOTE: "This page does not display your account or confirm any billing change. AFO setup and activation remain founder-assisted.",
+  },
+};
+const returnTemplate = readFileSync(join(root, "src", "billing-return.html"), "utf8");
+for (const [kind, copy] of Object.entries(returns)) {
+  const values = { ...copy, PUBLIC_SITE_URL: funnel.publicSiteUrl, CONTACT_URL: funnel.contactUrl, RETURN_URL: funnel.billingReturnUrls[kind] };
+  const page = returnTemplate.replace(/\{\{([A-Z_]+)\}\}/g, (_, key) => {
+    if (!(key in values)) throw new Error(`build: unknown return slot ${key}`);
+    return esc(values[key]);
+  });
+  const name = kind === "portal" ? "return" : kind;
+  writeFileSync(join(dist, `billing-${name}.html`), page);
+}
+copyFileSync(join(root, "src", "billing-return.css"), join(dist, "return.css"));
+copyFileSync(join(root, "src", "js", "return.js"), join(dist, "js", "return.js"));
 
 const styleDir = join(root, "src", "styles");
 // Light, string-safe CSS minification: drop comments and collapse whitespace outside quoted strings.

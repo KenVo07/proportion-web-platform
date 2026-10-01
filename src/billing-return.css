@@ -1,0 +1,12 @@
+/* Uses the Landing's existing type, colour, spacing and button tokens. */
+.return-page { min-height: 100svh; display: flex; flex-direction: column; }
+.return-main { padding-block: clamp(132px, 18vh, 188px) 64px; flex: 1; }
+.return-card { max-width: 740px; margin-inline: auto; display: grid; gap: 24px; }
+.return-card h1 { font-size: clamp(2.25rem, 5vw, 3.75rem); max-width: 16ch; }
+.return-next { padding-top: 24px; border-top: 1px solid var(--line); display: grid; gap: 12px; }
+.return-next h2 { font-size: var(--fs-h3); }
+.return-next p { color: var(--ink-2); line-height: 1.65; max-width: 60ch; }
+.return-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.return-note { font-size: 0.875rem; color: var(--ink-3); line-height: 1.6; max-width: 64ch; }
+.return-foot { padding-block: 24px; font-size: 0.875rem; color: var(--ink-3); }
+@media (max-width: 420px) { .return-actions { flex-direction: column; align-items: stretch; } }
